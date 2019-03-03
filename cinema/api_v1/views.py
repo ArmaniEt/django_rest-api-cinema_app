@@ -5,8 +5,12 @@ from api_v1.serializers import MovieSerializer, HallSerializer, \
 
 
 class MovieViewSet(viewsets.ModelViewSet):
-    queryset = Movie.objects.all().order_by('-release_date')
+    queryset = Movie.objects.active().order_by('-release_date')
     serializer_class = MovieSerializer
+
+    def perform_destroy(self, instance):
+        instance.is_deleted = True
+        instance.save()
 
 
 class HallViewSet(viewsets.ModelViewSet):
@@ -17,6 +21,10 @@ class HallViewSet(viewsets.ModelViewSet):
 class ShowViewSet(viewsets.ModelViewSet):
     queryset = Show.objects.all().order_by('-begin_show_time')
     serializer_class = ShowSerializer
+
+    def perform_destroy(self, instance):
+        instance.is_deleted = True
+        instance.save()
 
 
 class SeatViewSet(viewsets.ModelViewSet):

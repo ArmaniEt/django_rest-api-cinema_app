@@ -5,7 +5,7 @@ from rest_framework import serializers
 class ShowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Show
-        fields = ('id', 'begin_show_time', 'finish_show_time', 'ticket_price', 'movie', 'hall')
+        fields = ('id', 'begin_show_time', 'finish_show_time', 'ticket_price', 'movie', 'hall', 'is_deleted')
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -29,4 +29,4 @@ class HallSerializer(serializers.ModelSerializer):
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = ('id', 'name', 'description', 'poster', 'release_date', 'finish_date')
+        fields = ('id', 'name', 'description', 'poster', 'release_date', 'finish_date', 'is_deleted')

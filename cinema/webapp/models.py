@@ -9,6 +9,14 @@ class Category(models.Model):
         return self.name
 
 
+class SoftDeleteMovieManager(models.Manager):
+    def active(self):
+        return self.filter(is_deleted=False)
+
+    def deleted(self):
+        return self.filter(is_deleted=True)
+
+
 class Movie(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=2000, null=True, blank=True)
@@ -16,6 +24,9 @@ class Movie(models.Model):
     release_date = models.DateField()
     finish_date = models.DateField(null=True, blank=True)
     category = models.ManyToManyField(Category, related_name='movie')
+    is_deleted = models.BooleanField(default=False)
+
+    objects = SoftDeleteMovieManager()
 
     def __str__(self):
         return self.name
@@ -37,12 +48,20 @@ class Seat(models.Model):
         return 'Your seat: {0}, Your row: {1} Hall is : {2}'.format(self.seat, self.row, self.hall.name)
 
 
+class SoftDeleteShowManager(models.Manager):
+    def active(self):
+        return self.filter(is_deleted=False)
+
+
 class Show(models.Model):
     begin_show_time = models.DateTimeField()
     finish_show_time = models.DateTimeField()
     ticket_price = models.DecimalField(max_digits=6, decimal_places=2)
     movie = models.ManyToManyField(Movie, related_name='show')
     hall = models.ForeignKey(Hall, on_delete=models.CASCADE, related_name='show_hall')
+    is_deleted = models.BooleanField(default=False)
+
+    objects = SoftDeleteShowManager()
 
     def __str__(self):
         name = [movie for movie in self.movie.all()]
