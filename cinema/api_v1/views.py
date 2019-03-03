@@ -1,4 +1,4 @@
-from webapp.models import Movie
+from webapp.models import Movie, Hall, Show, Seat, Category
 from rest_framework import viewsets
 from api_v1.serializers import MovieSerializer
 

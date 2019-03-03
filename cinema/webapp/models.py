@@ -33,6 +33,9 @@ class Seat(models.Model):
     seat = models.IntegerField(null=True, blank=True)
     hall = models.ForeignKey(Hall, on_delete=models.CASCADE, related_name='seat')
 
+    def __str__(self):
+        return 'Your seat: {0}, Your row: {1} Hall is : {2}'.format(self.seat, self.row, self.hall.name)
+
 
 class Show(models.Model):
     begin_show_time = models.DateTimeField()
@@ -42,4 +45,6 @@ class Show(models.Model):
     hall = models.ForeignKey(Hall, on_delete=models.CASCADE, related_name='show_hall')
 
     def __str__(self):
-        return 'Begin date is: {0}, Ticket price: {1:.2f}'.format(self.begin_show_time, float(self.ticket_price))
+        name = [movie for movie in self.movie.all()]
+        return '{0} Begin date is: {1}, Ticket price: {2:.2f}'\
+            .format(name, self.begin_show_time, float(self.ticket_price))
