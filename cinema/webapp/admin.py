@@ -14,7 +14,6 @@ admin.site.register(Movie, MovieAdmin)
 
 class ShowAdmin(admin.ModelAdmin):
     fields = ['begin_show_time', 'finish_show_time', 'ticket_price', 'movie', 'hall']
-    filter_horizontal = ['movie']
     ordering = ['-begin_show_time']
 
 

@@ -57,13 +57,12 @@ class Show(models.Model):
     begin_show_time = models.DateTimeField()
     finish_show_time = models.DateTimeField()
     ticket_price = models.DecimalField(max_digits=6, decimal_places=2)
-    movie = models.ManyToManyField(Movie, related_name='show')
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='show_movie')
     hall = models.ForeignKey(Hall, on_delete=models.CASCADE, related_name='show_hall')
     is_deleted = models.BooleanField(default=False)
 
     objects = SoftDeleteShowManager()
 
     def __str__(self):
-        name = [movie for movie in self.movie.all()]
         return '{0} Begin date is: {1}, Ticket price: {2:.2f}'\
-            .format(name, self.begin_show_time, float(self.ticket_price))
+            .format(self.movie, self.begin_show_time, float(self.ticket_price))

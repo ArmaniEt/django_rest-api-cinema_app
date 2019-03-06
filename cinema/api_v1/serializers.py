@@ -29,4 +29,4 @@ class HallSerializer(serializers.ModelSerializer):
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = ('id', 'name', 'description', 'poster', 'release_date', 'finish_date', 'is_deleted')
+        fields = ('id', 'name', 'description', 'poster', 'release_date', 'finish_date', 'category', 'is_deleted')
