@@ -19,7 +19,8 @@ class ShowSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Show
-        fields = ('id', 'url', 'movie_url', 'hall_url', 'begin_show_time', 'finish_show_time', 'ticket_price', 'movie', 'hall', 'is_deleted')
+        fields = ('id', 'url', 'movie_url', 'hall_url', 'begin_show_time', 'finish_show_time',
+                  'ticket_price', 'movie', 'hall', 'is_deleted')
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -81,3 +82,21 @@ class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = ('id', 'url', 'unique_code', 'created_date', 'updated_date', 'show', 'seats', 'status', 'show_url')
+
+
+class DiscountSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='api_v1:discount-detail')
+
+    class Meta:
+        model = Discount
+        fields = ('name', 'url', 'discount', 'disc_started', 'disc_finished')
+
+
+class TicketsSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='api_v1:tickets-detail')
+    seat = InlineSeatSerializer()
+    show_url = serializers.HyperlinkedRelatedField(view_name='api_v1:show-detail', read_only=True, source='show')
+
+    class Meta:
+        model = Tickets
+        fields = ('show', 'url', 'show_url', 'seat', 'ticket_discount', 'returned')
