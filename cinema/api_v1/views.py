@@ -1,12 +1,18 @@
 from webapp.models import Movie, Hall, Show, Seat, Category
 from rest_framework import viewsets
-from api_v1.serializers import MovieSerializer, HallSerializer, \
+from api_v1.serializers import MovieCreateSerializer, MovieDisplaySerializer, HallSerializer, \
     ShowSerializer, SeatSerializer, CategorySerializer
 
 
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.active().order_by('-release_date')
-    serializer_class = MovieSerializer
+    serializer_class = MovieCreateSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return MovieDisplaySerializer
+        else:
+            return MovieCreateSerializer
 
     def perform_destroy(self, instance):
         instance.is_deleted = True
