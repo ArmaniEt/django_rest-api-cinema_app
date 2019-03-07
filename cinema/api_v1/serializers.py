@@ -1,4 +1,4 @@
-from webapp.models import Movie, Hall, Seat, Show, Category
+from webapp.models import Movie, Hall, Seat, Show, Category, Booking, Discount, Tickets
 from rest_framework import serializers
 
 

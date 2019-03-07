@@ -79,6 +79,9 @@ class Discount(models.Model):
     disc_started = models.DateTimeField(blank=True, null=True)
     disc_finished = models.DateTimeField(blank=True, null=True)
 
+    def __str__(self):
+        return '%s, discount is: %.2f' % (self.name, float(self.discount))
+
 
 def generate_code():
     code = ""
@@ -114,7 +117,8 @@ class Booking(models.Model):
 class Tickets(models.Model):
     show = models.ForeignKey(Show, on_delete=models.PROTECT, related_name='tickets_on_show')
     seat = models.ForeignKey(Seat, on_delete=models.PROTECT, related_name='tickets_on_seat')
-    ticket_discount = models.ForeignKey(Discount, on_delete=models.PROTECT, related_name='tickets_discount')
+    ticket_discount = models.ForeignKey(Discount, on_delete=models.PROTECT,
+                                        related_name='tickets_discount', blank=True, null=True)
     returned = models.BooleanField(default=False)
 
     def __str__(self):
