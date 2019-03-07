@@ -1,5 +1,5 @@
 from django.contrib import admin
-from webapp.models import Movie, Show, Hall, Category, Seat
+from webapp.models import Movie, Show, Hall, Category, Seat, Booking, Discount, Tickets
 
 
 class MovieAdmin(admin.ModelAdmin):
@@ -21,3 +21,13 @@ admin.site.register(Show, ShowAdmin)
 admin.site.register(Hall)
 admin.site.register(Category)
 admin.site.register(Seat)
+
+
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ['show', 'unique_code', 'get_seats_display']
+    ordering = ['-pk']
+
+
+admin.site.register(Booking, BookingAdmin)
+admin.site.register(Discount)
+admin.site.register(Tickets)

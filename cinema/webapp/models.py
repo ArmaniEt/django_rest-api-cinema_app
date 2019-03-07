@@ -67,8 +67,10 @@ class Show(models.Model):
     objects = SoftDeleteShowManager()
 
     def __str__(self):
-        return '{0} Begin date is: {1}, Ticket price: {2:.2f}'\
-            .format(self.movie, self.begin_show_time, float(self.ticket_price))
+        return '{0} Show time is: {1} - {2}'\
+            .format(self.movie,
+                    self.begin_show_time.strftime('%d.%m. %Y %H:%M'),
+                    self.finish_show_time.strftime('%d.%m. %Y %H:%M'))
 
 
 class Discount(models.Model):
@@ -92,15 +94,21 @@ class Booking(models.Model):
         ("Canceled", "Отменено")
     )
 
-    unique_code = models.CharField(max_length=12, unique_for_date='created_date', default=generate_code)
+    unique_code = models.CharField(max_length=12, unique_for_date='created_date', default=generate_code, editable=False)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
     show = models.ForeignKey(Show, on_delete=models.CASCADE, related_name='booked_show')
     seats = models.ManyToManyField(Seat, related_name='booked_seat')
-    status = models.CharField(max_length=1, choices=BOOKING_STATUS, default='Created')
+    status = models.CharField(max_length=12, choices=BOOKING_STATUS, default='Created')
 
     def __str__(self):
         return "%s, %s" % (self.show, self.unique_code)
+
+    def get_seats_display(self):
+        seats = ""
+        for seat in self.seats.all():
+            seats += "R:%s S:%s" % (seat.row, seat.seat)
+        return seats
 
 
 class Tickets(models.Model):
