@@ -1,7 +1,8 @@
 from webapp.models import Movie, Hall, Show, Seat, Category, Booking, Discount, Tickets
 from rest_framework import viewsets
 from api_v1.serializers import MovieCreateSerializer, MovieDisplaySerializer, HallSerializer, \
-    ShowSerializer, SeatSerializer, CategorySerializer, BookingSerializer, DiscountSerializer, TicketsSerializer
+    ShowSerializer, SeatSerializer, CategorySerializer, BookingCreateSerializer, \
+    DiscountSerializer, TicketsSerializer, BookingDisplaySerializer
 
 
 class MovieViewSet(viewsets.ModelViewSet):
@@ -45,7 +46,13 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 class BookingViewSet(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
-    serializer_class = BookingSerializer
+    serializer_class = BookingCreateSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return BookingDisplaySerializer
+        else:
+            return BookingCreateSerializer
 
 
 class DiscountViewSet(viewsets.ModelViewSet):

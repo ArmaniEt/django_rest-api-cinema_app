@@ -74,14 +74,19 @@ class MovieDisplaySerializer(MovieCreateSerializer):
     category = InlineCategorySerializer(many=True, read_only=True)
 
 
-class BookingSerializer(serializers.ModelSerializer):
+# For creating booking and for displaying same as Movie serializers
+class BookingCreateSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='api_v1:booking-detail')
-    seats = InlineSeatSerializer(many=True, read_only=True)
     show_url = serializers.HyperlinkedRelatedField(view_name='api_v1:show-detail', read_only=True, source='show')
 
     class Meta:
         model = Booking
         fields = ('id', 'url', 'unique_code', 'created_date', 'updated_date', 'show', 'seats', 'status', 'show_url')
+
+
+class BookingDisplaySerializer(BookingCreateSerializer):
+    seats = InlineSeatSerializer(many=True, read_only=True)
+#
 
 
 class DiscountSerializer(serializers.ModelSerializer):
