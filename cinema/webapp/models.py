@@ -1,4 +1,7 @@
 from django.db import models
+from django.conf import settings
+import random
+import string
 
 
 class Category(models.Model):
@@ -40,8 +43,8 @@ class Hall(models.Model):
 
 
 class Seat(models.Model):
-    row = models.IntegerField(null=True, blank=True)
-    seat = models.IntegerField(null=True, blank=True)
+    row = models.CharField(max_length=255, null=True, blank=True)
+    seat = models.CharField(max_length=255, null=True, blank=True)
     hall = models.ForeignKey(Hall, on_delete=models.CASCADE, related_name='seat')
 
     def __str__(self):
@@ -66,3 +69,45 @@ class Show(models.Model):
     def __str__(self):
         return '{0} Begin date is: {1}, Ticket price: {2:.2f}'\
             .format(self.movie, self.begin_show_time, float(self.ticket_price))
+
+
+class Discount(models.Model):
+    name = models.CharField(max_length=255)
+    discount = models.DecimalField(max_digits=4, decimal_places=2)
+    disc_started = models.DateTimeField(blank=True, null=True)
+    disc_finished = models.DateTimeField(blank=True, null=True)
+
+
+def generate_code():
+    code = ""
+    for i in range(0, settings.BOOKING_CODE_LENGTH):
+        code += random.choice(string.digits)
+    return code
+
+
+class Booking(models.Model):
+    BOOKING_STATUS = (
+        ("Created", "Создано"),
+        ("Bought", "Выкуплено"),
+        ("Canceled", "Отменено")
+    )
+
+    unique_code = models.CharField(max_length=12, unique_for_date='created_date', default=generate_code)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    show = models.ForeignKey(Show, on_delete=models.CASCADE, related_name='booked_show')
+    seats = models.ManyToManyField(Seat, related_name='booked_seat')
+    status = models.CharField(max_length=1, choices=BOOKING_STATUS, default='Created')
+
+    def __str__(self):
+        return "%s, %s" % (self.show, self.unique_code)
+
+
+class Tickets(models.Model):
+    show = models.ForeignKey(Show, on_delete=models.PROTECT, related_name='tickets_on_show')
+    seat = models.ForeignKey(Seat, on_delete=models.PROTECT, related_name='tickets_on_seat')
+    ticket_discount = models.ForeignKey(Discount, on_delete=models.PROTECT, related_name='tickets_discount')
+    returned = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "%s, %s" % (self.show, self.seat)

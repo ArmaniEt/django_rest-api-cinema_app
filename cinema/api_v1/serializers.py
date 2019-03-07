@@ -30,8 +30,8 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'description', 'url')
 
 
+# For displaying id and name of the genre of movie in Movie serializer
 class InlineCategorySerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Category
         fields = ('id', 'name')
@@ -45,12 +45,20 @@ class SeatSerializer(serializers.ModelSerializer):
         fields = ('id', 'url', 'row', 'seat', 'hall')
 
 
+# Serializer for displaying seats in Hall serializer
+class InlineSeatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Seat
+        fields = ('id', 'row', 'seat')
+
+
 class HallSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='api_v1:hall-detail')
+    seat = InlineSeatSerializer(many=True, read_only=True)
 
     class Meta:
         model = Hall
-        fields = ('id', 'url',  'name')
+        fields = ('id', 'url',  'name', 'seat')
 
 
 class MovieSerializer(serializers.ModelSerializer):
