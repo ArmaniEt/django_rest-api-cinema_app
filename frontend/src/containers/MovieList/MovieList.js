@@ -1,9 +1,10 @@
-import React, {Fragment} from 'react'
+import React, {Fragment, Component} from 'react';
 import {MOVIES_URL} from "../../urls";
+import MovieCard from "../../components/MovieCard/MovieCard";
 
 
 
-class MovieList {
+class MovieList extends Component{
 
     state = {
         movies: []
@@ -11,9 +12,11 @@ class MovieList {
 
     componentDidMount(){
         fetch(MOVIES_URL)
-            .then(response => response.json())
-            .then(json => console.log(json))
-            .then(error => console.log(error))
+            .then(response => {
+                if (response.ok) return response.json();
+                throw new Error("Something wrong with your network request")
+            }).then(movies => this.setState({movies}))
+            .catch(error => console.log(error))
     }
 
     render(){
