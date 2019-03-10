@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import Card from "../../components/UI/Card/Card";
 
 const MovieCard = function (props) {
@@ -11,7 +11,8 @@ const MovieCard = function (props) {
 
 
     return <Card image={poster} header={name} text={description}
-                 release_date={release_date} finish_date={finish_date} link={link}/>
+                 release_date={release_date} finish_date={finish_date} link={link.url} link_text={link.text}/>
+
 };
 
 export default MovieCard;

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {Route, Switch} from 'react-router'
-import {BrowserRouter} from 'react-router-dom'
+import {Route, Switch} from 'react-router';
+import {BrowserRouter} from 'react-router-dom';
+import MovieList from "./containers/MovieList/MovieList";
 import './App.css';
 
 class App extends Component {
@@ -9,7 +10,7 @@ class App extends Component {
             <div className="container">
                 <BrowserRouter>
                     <Switch>
-                        <Route path="/" component={MovieList}></Route>
+                        <Route path="/" component={MovieList}/>
                     </Switch>
                 </BrowserRouter>
             </div>
