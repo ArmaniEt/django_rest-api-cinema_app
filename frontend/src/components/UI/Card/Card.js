@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 
 const Card = props => {
@@ -16,7 +17,7 @@ const Card = props => {
                             <span> Дата завершения: {props.finish_date}</span>
                             : null}
                     </div>
-                    <a href="#">{props.link}</a>
+                    <NavLink to={props.link}>{props.link_text}</NavLink>
                 </div>
             </div>
         </div>

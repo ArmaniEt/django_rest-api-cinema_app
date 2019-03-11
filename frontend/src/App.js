@@ -3,6 +3,7 @@ import {Route, Switch} from 'react-router';
 import {BrowserRouter} from 'react-router-dom';
 import MovieList from "./containers/MovieList/MovieList";
 import './App.css';
+import MovieDetail from './containers/MovieDetail/MovieDetail';
 
 class App extends Component {
     render() {
@@ -10,6 +11,7 @@ class App extends Component {
             <div className="container">
                 <BrowserRouter>
                     <Switch>
+                        <Route path="/movies/:id" component={MovieDetail}/>
                         <Route path="/" component={MovieList}/>
                     </Switch>
                 </BrowserRouter>
