@@ -1,6 +1,7 @@
 import React, {Fragment, Component} from 'react';
 import {MOVIES_URL} from "../../urls";
 import { NavLink } from 'react-router-dom';
+import MovieCategories from "../../components/MovieCategories/MovieCategories";
 
 
 class MovieDetail extends Component {
@@ -26,15 +27,20 @@ class MovieDetail extends Component {
                 <div className="col-4 m-auto">
                     <div className="card">
                         <img className="card-img-top" src={this.state.movie.poster} alt="Movie's poster"/>
+
                         <div className="card-body">
                             <h3>{this.state.movie.name}</h3>
+                            {this.state.movie.category.length > 0 ?
+                                <MovieCategories categories={this.state.movie.category}/> : null}
                             <p className="card-text">{this.state.movie.description}</p>
                         </div>
+
                         <div className="card-footer">
                             <p>Дата выхода в прокат: {this.state.movie.release_date}</p>
                             <p>Дата завершения: {this.state.movie.finish_date}</p>
                         </div>
-                        <NavLink to="/">Back To Movies</NavLink>
+
+                        <NavLink className="btn btn-primary m-auto" to="/">Back To Movies</NavLink>
                     </div>
                 </div>
             </Fragment>
