@@ -26,12 +26,13 @@ class MovieDetail extends Component {
             <Fragment>
                 <div className="col-4 m-auto">
                     <div className="card">
-                        <img className="card-img-top" src={this.state.movie.poster} alt="Movie's poster"/>
+                        {this.state.movie.poster ?
+                            <img className="card-img-top" src={this.state.movie.poster} alt="Movie's poster"/> : null}
 
                         <div className="card-body">
                             <h3>{this.state.movie.name}</h3>
-                            {this.state.movie.category.length > 0 ?
-                                <MovieCategories categories={this.state.movie.category}/> : null}
+                            {this.state.movie.categories.length > 0 ?
+                                <MovieCategories categories={this.state.movie.categories}/> : null}
                             <p className="card-text">{this.state.movie.description}</p>
                         </div>
 

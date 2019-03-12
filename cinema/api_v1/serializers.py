@@ -67,11 +67,12 @@ class MovieCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ('id', 'name', 'description', 'poster', 'release_date', 'finish_date', 'categories', 'is_deleted', 'url')
+        fields = ('id', 'name', 'description', 'poster', 'release_date',
+                  'finish_date', 'categories', 'is_deleted', 'url')
 
 
 class MovieDisplaySerializer(MovieCreateSerializer):
-    category = InlineCategorySerializer(many=True, read_only=True)
+    categories = InlineCategorySerializer(many=True, read_only=True)
 
 
 # For creating booking and for displaying same as Movie serializers

@@ -24,7 +24,9 @@ class MovieList extends Component {
             <Fragment>
                 <div className='row'>
                     {this.state.movies.map(movie => {
-                        return <MovieCard key={movie.id} movie={movie}/>
+                        return <div className='col-xs-12 col-sm-6 col-lg-4 mt-3' key={movie.id}>
+                            <MovieCard movie={movie}/>
+                        </div>
                     })}
                 </div>
             </Fragment>
