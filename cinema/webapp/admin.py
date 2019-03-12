@@ -4,7 +4,7 @@ from webapp.models import Movie, Show, Hall, Category, Seat, Booking, Discount, 
 
 class MovieAdmin(admin.ModelAdmin):
     list_display = ['pk', 'name', 'release_date']
-    filter_horizontal = ['category']
+    filter_horizontal = ['categories']
     ordering = ['-release_date']
     search_fields = ['name', 'id']
 

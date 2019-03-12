@@ -1,4 +1,5 @@
 import React from 'react';
+import './MovieCategories.css';
 
 
 const MovieCategories = props => {
