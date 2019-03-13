@@ -13,9 +13,12 @@ class MovieAdd extends Component {
             description: "",
             release_date: "",
             finish_date: "",
+            poster: null,
             categories: []
 
         },
+        fileName: "",
+
         categories: [],
         alert: null,
         submitDisabled: false
@@ -64,6 +67,18 @@ class MovieAdd extends Component {
 
     };
 
+    fileChanged = (event) => {
+        const fileName = event.target.value;
+        const fieldName = event.target.name;
+        const fileObject = event.target.files.length > 0 ? event.target.files[0] : null;
+        this.updateMovieState(fieldName, fileObject);
+        this.setState(prevState => {
+            let newState = {...prevState};
+            newState.fileName = fileName;
+            return newState;
+        })
+    };
+
     formSubmitted = (event) => {
         event.preventDefault();
         console.log(this.state);
@@ -74,12 +89,14 @@ class MovieAdd extends Component {
         });
 
 
-        const data = JSON.stringify(this.state.movie);
-        const headers = {
-            'Content-Type': 'application/json',
-            'Content-Length': data.length
-        };
-        fetch(MOVIES_URL, {method: "POST", body: data, headers}).then(response => {
+        let data = new FormData();
+        Object.keys(this.state.movie).forEach(key => {
+            const value = this.state.movie[key];
+            if(value && value.toString() !== "") {
+                data.append(key, this.state.movie[key])
+            }
+        });
+        fetch(MOVIES_URL, { method: "POST", body: data}).then(response => {
                 if (response.ok) return response.json();
                 throw new Error("Movie was not created");
             }).then(movie => ( this.props.history.replace('/movies/' + movie.id)
@@ -130,6 +147,8 @@ class MovieAdd extends Component {
                     <DatePicker dateFormat="YYYY-MM-dd" selected={finish_date_selected} className="form-control" name="finish_date"
                                 onChange={(date) => this.dateChanged('finish_date', date)}/>
                 </div>
+
+                <input type="file" name="poster" value={this.state.fileName} onChange={this.fileChanged}/>
                 <div className="form-group">
                     <label>Категории</label>
 
