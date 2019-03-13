@@ -15,7 +15,7 @@ class MovieList extends Component {
                 if (response.ok) return response.json();
                 throw new Error("Something wrong with your network request");
             }).then(movies =>
-            this.setState({movies: movies.results}))
+            this.setState({movies: movies}))
             .catch(error => console.log(error))
     }
 

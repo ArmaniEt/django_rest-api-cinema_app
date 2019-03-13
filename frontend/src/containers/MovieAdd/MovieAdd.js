@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {CATEGORIES_URL} from "../../urls";
 import {MOVIES_URL} from "../../urls";
 import DatePicker from "react-datepicker";
+import Select from 'react-select';
 
 
 class MovieAdd extends Component {
@@ -28,7 +29,7 @@ class MovieAdd extends Component {
                 throw new Error("Something wrong with your network request");
             }).then(categories => this.setState(prevState => {
             let newState = {...prevState};
-            newState.categories = categories.results;
+            newState.categories = categories;
             return newState;
         }))
             .catch(error => console.log(error))
@@ -57,14 +58,9 @@ class MovieAdd extends Component {
 
     };
 
-    selectChanged = (event) => {
-        const value = [];
-        const fieldName = event.target.name;
-        const options = event.target.options;
-        for(let i = 0; i  < options.length; i++){
-            if(options[i].selected) value.push(+options[i].value)
-        }
-        this.updateMovieState(fieldName, value);
+    selectChanged = (value, fieldName) => {
+        const category_value = value.map(item => item.value);
+        this.updateMovieState(fieldName, category_value);
 
     };
 
@@ -83,13 +79,11 @@ class MovieAdd extends Component {
             'Content-Type': 'application/json',
             'Content-Length': data.length
         };
-        fetch(MOVIES_URL, {method: "POST", body: data, headers})
-            .then(response => {
-                if (response.status === 201) return response.json();
+        fetch(MOVIES_URL, {method: "POST", body: data, headers}).then(response => {
+                if (response.ok) return response.json();
                 throw new Error("Movie was not created");
-            }).then( movie => this.setState( this.props.history.replace('/movies/' + movie.id)
-            ))
-            .catch(error =>
+            }).then(movie => ( this.props.history.replace('/movies/' + movie.id)
+            )).catch(error =>
                 console.log(error));
                 this.setState(prevState => {
                     let newState = {...prevState};
@@ -102,7 +96,7 @@ class MovieAdd extends Component {
 
     render() {
 
-        const {name, description, release_date, finish_date, categories} = this.state.movie;
+        const {name, description, release_date, finish_date} = this.state.movie;
         let alert = null;
         if(this.state.alert){
             alert = <div className={"alert alert-" + this.state.alert.type}>{this.state.alert.message}</div>
@@ -111,6 +105,9 @@ class MovieAdd extends Component {
         const release_date_selected = release_date ? new Date(release_date) : null;
         const finish_date_selected = finish_date ? new Date(finish_date) : null;
 
+        const select_options = this.state.categories.map(category => {
+            return {value: category.id, label: category.name};
+        }); // storing categories for passing it to Select options
         return <div>
             {alert}
             <form onSubmit={this.formSubmitted}>
@@ -125,24 +122,22 @@ class MovieAdd extends Component {
                 </div>
                 <div className="form-group">
                     <label className="font-weight-bold">Дата выхода в прокат:</label>
-                    <DatePicker selected={release_date_selected} name="release_date"
+                    <DatePicker dateFormat="YYYY-MM-dd" selected={release_date_selected} name="release_date"
                                 className="form-control" onChange={(date) => this.dateChanged('release_date', date)}/>
                 </div>
                 <div className="form-group">
                     <label>Дата завершения проката:</label>
-                    <DatePicker selected={finish_date_selected} className="form-control" name="finish_date"
+                    <DatePicker dateFormat="YYYY-MM-dd" selected={finish_date_selected} className="form-control" name="finish_date"
                                 onChange={(date) => this.dateChanged('finish_date', date)}/>
                 </div>
                 <div className="form-group">
-                    <label className="font-weight-bold">Категории</label>
-                    <select multiple name="categories" onChange={this.selectChanged}>
-                        {this.state.categories.map(category => {
-                            return <option selected={category.id in categories}
-                                           value={category.id}>{category.name}</option>
-                        })}
-                    </select>
-                </div>
+                    <label>Категории</label>
 
+                    <Select options={select_options}
+                            isMulti={true} onChange={(value) => this.selectChanged(value, 'categories')}
+                            name="categories"
+                    />
+                </div>
                 <button disabled={this.state.submitDisabled}
                         className="btn btn-primary" type="submit">Сохранить</button>
             </form>
