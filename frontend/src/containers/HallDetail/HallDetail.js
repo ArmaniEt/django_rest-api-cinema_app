@@ -22,7 +22,7 @@ class HallDetail extends Component {
         if (!this.state.hall) return null;
         return <Fragment>
             <div className="col-4 m-auto">
-                <div className="card">
+                <div className="card text-center">
                     <div className="card-body">
                         <h3>{this.state.hall.name}</h3>
                         {this.state.hall.seat.length > 0 ? <p>Места в зале: </p> : null}

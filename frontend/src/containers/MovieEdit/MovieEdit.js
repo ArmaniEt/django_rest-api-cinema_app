@@ -29,6 +29,7 @@ class MovieEdit extends Component {
     }
 
     showErrorAlert = (error) => {
+        console.log(error);
         this.setState(prevState => {
             let newState = {...prevState};
             newState.alert = {type: 'danger', message: `Movie was not added!`};
@@ -53,14 +54,11 @@ class MovieEdit extends Component {
 
     formSubmitted = (movie) => {
         const formData = this.gatherFormData(movie);
-
         return fetch(MOVIES_URL + this.props.match.params.id + '/', {method: "PUT", body: formData})
             .then(response => {
-
                 return response.json();
             }).then(movie => this.props.history.replace('/movies/' + movie.id)).catch(error => {
                 console.log(error);
-                console.log(error.response);
                 this.showErrorAlert(error.response);
             });
     };

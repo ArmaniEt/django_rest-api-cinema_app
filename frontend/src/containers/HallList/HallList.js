@@ -19,6 +19,18 @@ class HallList extends  Component {
     }
 
 
+    hallDelete = (hallId) => {
+        fetch(HALLS_URL + hallId + '/', {method: "DELETE"});
+        this.setState(prevState => {
+            let newState = {...prevState};
+            let halls = [...newState.halls];
+            let movieIndex = halls.findIndex(hall => hall.id === hallId);
+            halls.splice(movieIndex, 1);
+            newState.halls = halls;
+            return newState;
+        })
+
+    };
 
     render(){
         return(
@@ -26,7 +38,7 @@ class HallList extends  Component {
                 <div className='row'>
                     {this.state.halls.map(hall => {
                         return <div className='col-xs-12 col-sm-6 col-lg-4 mt-3' key={hall.id}>
-                            <HallCard hall={hall}/>
+                            <HallCard onDelete={() => this.hallDelete(hall.id)} hall={hall}/>
                         </div>
                     })}
                 </div>

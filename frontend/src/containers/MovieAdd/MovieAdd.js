@@ -6,15 +6,16 @@ import MovieForm from "../../components/MovieForm/MovieForm";
 class MovieAdd extends Component {
 
     state = {
-       alert: null
+        alert: null
     };
 
     showErrorAlert = (error) => {
-      this.setState(prevState => {
-          let newState = {...prevState};
-          newState.alert = {type: 'danger', message: 'Movie was not added!'};
-          return newState;
-      })
+        console.log(error);
+        this.setState(prevState => {
+            let newState = {...prevState};
+            newState.alert = {type: 'danger', message: 'Movie was not added!'};
+            return newState;
+        })
     };
 
     gatherFormData = (movie) => {
@@ -22,7 +23,7 @@ class MovieAdd extends Component {
         Object.keys(movie).forEach(key => {
             const value = movie[key];
             if (value) {
-                if(Array.isArray(value)) {
+                if (Array.isArray(value)) {
                     value.forEach(item => formData.append(key, item));
                 } else {
                     formData.append(key, value);
@@ -41,15 +42,13 @@ class MovieAdd extends Component {
             }).then(movie => this.props.history.replace('/movies/' + movie.id))
             .catch(error => {
                 console.log(error);
-                console.log(error.response);
                 this.showErrorAlert(error.response);
             });
     };
-
     render() {
         const alert = this.state.alert;
         return <Fragment>
-            {alert ? <div className={"mb-2 alert alert-" + alert.type} >{alert.message}</div>: null}
+            {alert ? <div className={"mb-2 alert alert-" + alert.type}>{alert.message}</div> : null}
             <MovieForm onSubmit={this.formSubmitted}/>
         </Fragment>
     }

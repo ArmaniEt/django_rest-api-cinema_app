@@ -10,6 +10,7 @@ import Layout from './Layout';
 import HallList from "./containers/HallList/HallList";
 import HallDetail from "./containers/HallDetail/HallDetail";
 import HallAdd from "./containers/HallAdd/HallAdd";
+import HallEdit from "./containers/HallEdit/HallEdit";
 
 
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
                 <BrowserRouter>
                     <Layout>
                         <Switch>
+                            <Route path="/halls/:id/edit" component={HallEdit}/>
                             <Route path="/halls/create" component={HallAdd}/>
                             <Route path="/halls/:id" component={HallDetail}/>
                             <Route path="/halls/" component={HallList}/>
