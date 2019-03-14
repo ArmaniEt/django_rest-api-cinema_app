@@ -16,6 +16,9 @@ class Layout extends React.Component {
                         <li className="nav-item">
                             <NavLink className="nav-link active" to={'/halls/'}>Залы</NavLink>
                         </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link active" to={'/halls/create'}>Добавить зал</NavLink>
+                        </li>
                     </ul>
                 </div>
                 {this.props.children}

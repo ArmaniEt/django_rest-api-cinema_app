@@ -9,6 +9,7 @@ import MovieEdit from './containers/MovieEdit/MovieEdit';
 import Layout from './Layout';
 import HallList from "./containers/HallList/HallList";
 import HallDetail from "./containers/HallDetail/HallDetail";
+import HallAdd from "./containers/HallAdd/HallAdd";
 
 
 class App extends Component {
@@ -18,6 +19,7 @@ class App extends Component {
                 <BrowserRouter>
                     <Layout>
                         <Switch>
+                            <Route path="/halls/create" component={HallAdd}/>
                             <Route path="/halls/:id" component={HallDetail}/>
                             <Route path="/halls/" component={HallList}/>
                             <Route path="/movies/create" component={MovieAdd}/>

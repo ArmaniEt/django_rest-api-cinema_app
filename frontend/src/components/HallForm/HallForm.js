@@ -62,7 +62,7 @@ class HallForm extends Component {
         if (this.state.submitEnabled) {
             event.preventDefault();
             this.disableSubmit();
-            this.props.onSubmit(this.state.movie)
+            this.props.onSubmit(this.state.hall)
                 .then(this.enableSubmit);
         }
     };
@@ -82,7 +82,6 @@ class HallForm extends Component {
                         <input className="form-control" type="text" name="name" value={name}
                                onChange={this.inputChanged}/>
                     </div>
-
                     <button disabled={!submitEnabled}
                             className="btn btn-primary" type="submit">Сохранить
                     </button>

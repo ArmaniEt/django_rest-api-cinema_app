@@ -17,7 +17,7 @@ const Card = props => {
                         : null}
                 </div>
                 <NavLink to={props.link}>{props.link_text}</NavLink>
-                <button type="button" className="btn-block btn-primary" onClick={props.deleteMovie}>Delete Movie</button>
+                <button type="button" className="btn-block btn-primary" onClick={props.deleteMovie}>Удалить Фильм</button>
             </div>
         </div>
 
