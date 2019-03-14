@@ -19,11 +19,8 @@ class MovieDetail extends Component {
             }).then(movie => this.setState({movie}))
             .catch(error => console.log(error))
     }
-
-
     render() {
         if (!this.state.movie) return null;
-        console.log(this.state.movie);
         return (
             <Fragment>
                 <div className="col-4 m-auto">

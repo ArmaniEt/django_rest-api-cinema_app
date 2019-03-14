@@ -6,7 +6,7 @@ const MovieCard = function (props) {
     const {name, id, description, poster, release_date, finish_date} = movie;
     const link = {
       url: '/movies/' + id,
-      text: "Read more..."
+      text: "View more..."
     };
 
 
