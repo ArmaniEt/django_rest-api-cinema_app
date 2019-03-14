@@ -20,12 +20,12 @@ class HallDetail extends Component {
 
     render() {
         if (!this.state.hall) return null;
-
         return <Fragment>
             <div className="col-4 m-auto">
                 <div className="card">
                     <div className="card-body">
                         <h3>{this.state.hall.name}</h3>
+                        {this.state.hall.seat.length > 0 ? <p>Места в зале: </p> : null}
                         {this.state.hall.seat.length > 0 ?
                             this.state.hall.seat.map(seat => {
                                 return (
