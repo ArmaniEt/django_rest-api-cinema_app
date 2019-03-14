@@ -4,7 +4,6 @@ import {NavLink} from 'react-router-dom';
 
 const Card = props => {
     return (
-
         <div className={"card text-center text-sm-left " + (props.className ? props.className : "")}>
             {props.image ? <img style={{width: '320px', height: '350px'}}
                                 className="card-img-top m-auto" src={props.image} alt="Movie's poster"/> : null}
@@ -18,6 +17,7 @@ const Card = props => {
                         : null}
                 </div>
                 <NavLink to={props.link}>{props.link_text}</NavLink>
+                <button type="button" className="btn-block btn-primary" onClick={props.deleteMovie}>Delete Movie</button>
             </div>
         </div>
 

@@ -20,8 +20,10 @@ class MovieDetail extends Component {
             .catch(error => console.log(error))
     }
 
+
     render() {
         if (!this.state.movie) return null;
+        console.log(this.state.movie);
         return (
             <Fragment>
                 <div className="col-4 m-auto">
@@ -40,8 +42,7 @@ class MovieDetail extends Component {
                             <p>Дата выхода в прокат: {this.state.movie.release_date}</p>
                             <p>Дата завершения: {this.state.movie.finish_date}</p>
                         </div>
-
-                        <NavLink className="btn btn-primary m-auto" to="/">Back To Movies</NavLink>
+                        <NavLink to={'/movies/' + this.state.movie.id + '/edit'} className="btn btn-primary mr-2">Edit</NavLink>
                     </div>
                 </div>
             </Fragment>

@@ -19,13 +19,26 @@ class MovieList extends Component {
             .catch(error => console.log(error))
     }
 
+    movieDelete = (movieId) => {
+        fetch(MOVIES_URL + movieId + '/', {method: "DELETE"});
+        this.setState(prevState => {
+            let newState = {...prevState};
+            let movies = [...newState.movies];
+            let movieIndex = movies.findIndex(movie => movie.id === movieId);
+            movies.splice(movieIndex, 1);
+            newState.movies = movies;
+            return newState;
+        })
+
+    };
+
     render() {
         return (
             <Fragment>
                 <div className='row'>
                     {this.state.movies.map(movie => {
                         return <div className='col-xs-12 col-sm-6 col-lg-4 mt-3' key={movie.id}>
-                            <MovieCard movie={movie}/>
+                            <MovieCard onDelete={() => this.movieDelete(movie.id)}  movie={movie}/>
                         </div>
                     })}
                 </div>

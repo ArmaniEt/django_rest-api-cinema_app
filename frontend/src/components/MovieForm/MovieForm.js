@@ -83,7 +83,7 @@ class MovieForm extends Component {
     getCategoryValue = () => {
         if (this.state.categories.length > 0) {
             return this.state.movie.categories.map(id => {
-                const category = this.state.categories.find(category => category.id === id)
+                const category = this.state.categories.find(category => category.id === id);
                 return {value: id, label: category.name}
             })
         }
@@ -145,7 +145,7 @@ class MovieForm extends Component {
         if (this.state.movie) {
 
             const {name, description, release_date, finish_date} = this.state.movie;
-            const {posterFileName, submitEnable} = this.state;
+            const {posterFileName, submitEnabled} = this.state;
 
             const releaseDateSelected = this.dateToObject(release_date);
             const finishDateSelected = this.dateToObject(finish_date);
@@ -194,7 +194,7 @@ class MovieForm extends Component {
                                 isMulti={true} onChange={(value) => this.selectChanged(value, 'categories')}
                                 name="categories"/>
                     </div>
-                    <button disabled={!submitEnable}
+                    <button disabled={!submitEnabled}
                             className="btn btn-primary" type="submit">Сохранить
                     </button>
                 </form>

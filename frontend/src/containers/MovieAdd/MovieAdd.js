@@ -35,13 +35,10 @@ class MovieAdd extends Component {
     formSubmitted = (movie) => {
 
         const formData = this.gatherFormData(movie);
-        return fetch(MOVIES_URL, { method: "POST", body: formData})
+        return fetch(MOVIES_URL, {method: "POST", body: formData})
             .then(response => {
-                const movie = response.json();
-                console.log(movie);
-
-                this.props.history.replace('/movies/' + movie.id);
-            })
+                return response.json();
+            }).then(movie => this.props.history.replace('/movies/' + movie.id))
             .catch(error => {
                 console.log(error);
                 console.log(error.response);
