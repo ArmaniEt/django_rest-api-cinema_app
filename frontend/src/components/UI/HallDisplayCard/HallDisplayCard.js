@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {NavLink} from 'react-router-dom';
 
 const HallDisplayCard = props => {
     return(
@@ -8,14 +8,8 @@ const HallDisplayCard = props => {
                 {props.name}
             </div>
             <div className="card-body">
-                <p className="card-text">{props.seats.map(seat => {
-                    return (
-                        <div>
-                            <span>Ряд: {seat.row}</span> <span>Место: {seat.seat}</span>
-                        </div>
-                    )
-                })}</p>
-                <a href="#" className="btn btn-primary">Удалить зал</a>
+                <NavLink to={props.link}>{props.link_text}</NavLink>
+                <a href="#" className="btn-block btn-primary">Удалить зал</a>
             </div>
             {/*<div className="card-footer text-muted">*/}
                 {/*2 days ago*/}
