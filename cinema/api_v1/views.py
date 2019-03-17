@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from api_v1.serializers import MovieCreateSerializer, MovieDisplaySerializer, HallSerializer, \
     ShowSerializer, SeatSerializer, CategorySerializer, BookingCreateSerializer, \
     DiscountSerializer, TicketsSerializer, BookingDisplaySerializer
+from django_filters import rest_framework as filters
 
 
 class MovieViewSet(viewsets.ModelViewSet):
@@ -25,13 +26,28 @@ class HallViewSet(viewsets.ModelViewSet):
     serializer_class = HallSerializer
 
 
+# Shows
+class ShowFilter(filters.FilterSet):
+    movie_id = filters.NumberFilter(field_name="movie_id")
+    hall_id = filters.NumberFilter(field_name='hall_id')
+    starts_after = filters.DateFilter(field_name="begin_show_time", lookup_expr='gte')
+    starts_before = filters.DateFilter(field_name="begin_show_time", lookup_expr='lte')
+
+    class Meta:
+        model: Show
+        fields = ['movie_id', 'hall_id', 'starts_after', 'starts_before']
+
+
 class ShowViewSet(viewsets.ModelViewSet):
-    queryset = Show.objects.all().order_by('-begin_show_time')
+    queryset = Show.objects.all()
     serializer_class = ShowSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = ShowFilter
 
     def perform_destroy(self, instance):
         instance.is_deleted = True
         instance.save()
+#
 
 
 class SeatViewSet(viewsets.ModelViewSet):

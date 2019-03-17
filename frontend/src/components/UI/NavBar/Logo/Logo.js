@@ -1,7 +1,11 @@
 import React from 'react';
+import {ReactComponent as MenuLogo} from '../../../../logo.svg';
 
 const Logo = () => (
-    <span className="navbar-brand">Cinema</span>
+    <div className="col-lg-1">
+        <MenuLogo/>
+    </div>
+
 );
 export default Logo;
 

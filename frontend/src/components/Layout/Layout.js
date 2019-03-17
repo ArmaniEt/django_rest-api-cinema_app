@@ -15,7 +15,6 @@ class Layout extends React.Component {
                         </div>
                     </div>
                 </main>
-                <footer>I am here</footer>
             </Fragment>
         )
     }
