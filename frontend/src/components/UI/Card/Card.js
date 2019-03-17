@@ -16,7 +16,9 @@ const Card = props => {
                         <span> Дата завершения: {props.finish_date}</span>
                         : null}
                 </div>
-                <NavLink to={props.link}>{props.link_text}</NavLink>
+                <div className="d-block text-center m-3">
+                    <NavLink className="badge badge-info p-2" to={props.link}>{props.link_text}</NavLink>
+                </div>
                 <button type="button" className="btn-block btn-primary" onClick={props.deleteMovie}>Удалить Фильм</button>
             </div>
         </div>
