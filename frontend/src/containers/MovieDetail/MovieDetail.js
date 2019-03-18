@@ -3,11 +3,8 @@ import {MOVIES_URL, SHOWS_URL} from "../../urls";
 import {NavLink} from 'react-router-dom';
 import MovieCategories from "../../components/MovieCategories/MovieCategories";
 import MovieShows from "../../components/MovieShows/MovieShows";
+import moment from 'moment';
 
-const currentDate = new Date().toISOString().slice(0, 10);
-const tempDate = new Date();
-tempDate.setDate(tempDate.getDate() + 3);
-const threeDaysAfter = new Date(tempDate).toISOString().slice(0, 10);
 
 class MovieDetail extends Component {
 
@@ -17,8 +14,6 @@ class MovieDetail extends Component {
     };
 
     componentDidMount() {
-        console.log(currentDate);
-        console.log(threeDaysAfter);
         const match = this.props.match;
         fetch(MOVIES_URL + match.params.id)
             .then(response => {
@@ -30,8 +25,10 @@ class MovieDetail extends Component {
     }
 
     showsRequest = (movieId) => {
+        const startsAfter = moment().format('YYYY-MM-DD');
+        const startsBefore = moment().add(3, 'days').format('YYYY-MM-DD');
         fetch(`${SHOWS_URL}?movie_id=${movieId}
-        &hall_id=&starts_after=${currentDate}&starts_before=${threeDaysAfter}`)
+        &hall_id=&starts_after=${startsAfter}&starts_before=${startsBefore}`)
             .then(response => {
                 if (!response) throw new Error("No shows for this date range");
                 if (response && response.ok) {
@@ -39,7 +36,11 @@ class MovieDetail extends Component {
                 } else {
                     throw new Error("Wrong network request")
                 }
-            }).then(shows => this.setState({shows}))
+            }).then(shows => this.setState(prevState => {
+                let newState = {...prevState};
+                newState.shows = shows;
+                return newState;
+        })).catch(error => console.log(error))
     };
 
     render() {

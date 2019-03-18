@@ -1,19 +1,23 @@
 import React from "react";
+import moment from 'moment';
 
+
+const formatDate = (dateString) => {
+    return moment(dateString).format('YYYY-MM-DD HH:mm')
+};
 
 const MovieShows = props => {
     return (
         <div>
             {props.shows.map(show => {
-                return <div>
+                return <div key={show.id}>
                     <li className="list-group-item mt-2">
                         <div>
-                            <p>Дата начала: {new Date(show.begin_show_time).toISOString().slice(0, 10)}</p>
-                            <p>{new Date(show.begin_show_time).toLocaleTimeString()}</p>
+                            <span>Зал: {show.hall_name}</span>
+                            <p>Начало: {formatDate(show.begin_show_time)}</p>
                         </div>
                         <div>
-                            <p>Дата окончания: {new Date(show.finish_show_time).toISOString().slice(0, 10)}</p>
-                            <p>{new Date(show.finish_show_time).toLocaleTimeString()}</p>
+                            <p>Окончание: {formatDate(show.finish_show_time)}</p>
                         </div>
                     </li>
                 </div>
