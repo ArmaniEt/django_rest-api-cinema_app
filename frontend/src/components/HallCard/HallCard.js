@@ -6,7 +6,7 @@ const HallCard = function (props) {
     const {name, id} = hall;
     const link = {
       url: '/halls/' + id,
-      text: "View more..."
+      text: "Узнать больше..."
     };
 
     return <HallDisplayCard name={name} link={link.url} link_text={link.text} deleteHall={onDelete}/>

@@ -18,6 +18,10 @@ class ShowSerializer(serializers.ModelSerializer):
     )
 
     hall_name = serializers.SerializerMethodField(read_only=True, source='hall')
+    movie_name = serializers.SerializerMethodField(read_only=True, source='movie')
+
+    def get_movie_name(self, show):
+        return show.movie.name
 
     def get_hall_name(self, show):
         return show.hall.name
@@ -25,7 +29,7 @@ class ShowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Show
         fields = ('id', 'url', 'movie_url', 'hall_url', 'begin_show_time', 'finish_show_time',
-                  'ticket_price', 'movie', 'hall', 'is_deleted', 'hall_name')
+                  'ticket_price', 'movie', 'hall', 'is_deleted', 'hall_name', 'movie_name')
 
 
 class CategorySerializer(serializers.ModelSerializer):

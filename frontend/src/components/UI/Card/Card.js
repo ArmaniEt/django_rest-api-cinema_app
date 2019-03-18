@@ -4,11 +4,11 @@ import {NavLink} from 'react-router-dom';
 
 const Card = props => {
     return (
-        <div className={"card text-center text-sm-left " + (props.className ? props.className : "")}>
+        <div className={"bg-light card text-center text-sm-left " + (props.className ? props.className : "")}>
             {props.image ? <img style={{width: '320px', height: '350px'}}
                                 className="card-img-top m-auto" src={props.image} alt="Movie's poster"/> : null}
-            <div className="card-body">
-                <h5 className="card-title">{props.header}</h5>
+            <div className="card-body bg-light">
+                <h5 className="card-title text-center">{props.header}</h5>
                 {props.description ? <p className="card-text">{props.text}</p> : null}
                 <div className="card-footer">
                     <span>Дата выхода в прокат: {props.release_date}</span>

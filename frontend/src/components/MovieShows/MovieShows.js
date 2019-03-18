@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import moment from 'moment';
 
 
@@ -8,21 +8,21 @@ const formatDate = (dateString) => {
 
 const MovieShows = props => {
     return (
-        <div>
+        <Fragment>
             {props.shows.map(show => {
                 return <div key={show.id}>
-                    <li className="list-group-item mt-2">
+                    <li className="list-group-item mt-2 list-group-item-info">
                         <div>
-                            <span>Зал: {show.hall_name}</span>
-                            <p>Начало: {formatDate(show.begin_show_time)}</p>
+                            <p className="card-header text-center">Зал: {show.hall_name}</p>
+                            <p className="text-center m-2">Начало: {formatDate(show.begin_show_time)}</p>
                         </div>
                         <div>
-                            <p>Окончание: {formatDate(show.finish_show_time)}</p>
+                            <p className="text-center m-2">Окончание: {formatDate(show.finish_show_time)}</p>
                         </div>
                     </li>
                 </div>
             })}
-        </div>
+        </Fragment>
     );
 };
 

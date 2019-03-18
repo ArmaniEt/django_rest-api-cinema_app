@@ -8,12 +8,9 @@ const HallDisplayCard = props => {
                 {props.name}
             </div>
             <div className="card-body">
-                <NavLink to={props.link}>{props.link_text}</NavLink>
+                <NavLink className="badge badge-info p-2 m-2" to={props.link}>{props.link_text}</NavLink>
                 <button onClick={props.deleteHall} type="button" className="btn-block btn-primary">Удалить зал</button>
             </div>
-            {/*<div className="card-footer text-muted">*/}
-                {/*2 days ago*/}
-            {/*</div>*/}
         </div>
     )
 };

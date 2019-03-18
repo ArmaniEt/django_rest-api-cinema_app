@@ -51,24 +51,29 @@ class MovieDetail extends Component {
                     <div className="card">
                         {this.state.movie.poster ?
                             <img className="card-img-top" src={this.state.movie.poster} alt="Movie's poster"/> : null}
+
                         <div className="card-body">
                             <h3>{this.state.movie.name}</h3>
                             {this.state.movie.categories.length > 0 ?
                                 <MovieCategories categories={this.state.movie.categories}/> : null}
+                                <p className="text-center m-2">Описание Фильма</p>
                             <p className="card-text">{this.state.movie.description}</p>
                             {this.state.shows.length > 0 ?
                                 (<ul className="list-group">
-                                    <p>Сеансы:</p>
+                                    <p className="text-center m-1">Сеансы</p>
                                     <MovieShows shows={this.state.shows}/>
                                 </ul>) : null}
                         </div>
 
                         <div className="card-footer">
                             <p>Дата выхода в прокат: {this.state.movie.release_date}</p>
-                            <p>Дата завершения: {this.state.movie.finish_date}</p>
+                            {this.state.movie.finish_date ?
+                                <p>Дата завершения: {this.state.movie.finish_date}</p> : null}
                         </div>
+
                         <NavLink to={'/movies/' + this.state.movie.id + '/edit'}
-                                 className="btn btn-primary mr-2">Edit</NavLink>
+                                 className="btn btn-primary m-2">Edit</NavLink>
+
                     </div>
                 </div>
             </Fragment>
