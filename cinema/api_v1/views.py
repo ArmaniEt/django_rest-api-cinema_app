@@ -4,6 +4,15 @@ from api_v1.serializers import MovieCreateSerializer, MovieDisplaySerializer, Ha
     ShowSerializer, SeatSerializer, CategorySerializer, BookingCreateSerializer, \
     DiscountSerializer, TicketsSerializer, BookingDisplaySerializer
 from django_filters import rest_framework as filters
+from rest_framework.permissions import IsAuthenticated
+
+
+class BaseViewSet(viewsets.ModelViewSet):
+    def get_permissions(self):
+        permissions = super().get_permissions()
+        if self.request.method in ["POST", "DELETE", "PUT", "PATCH"]:
+            permissions.append(IsAuthenticated())
+        return permissions
 
 
 class MovieViewSet(viewsets.ModelViewSet):

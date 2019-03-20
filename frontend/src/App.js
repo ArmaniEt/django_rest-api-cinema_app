@@ -11,6 +11,7 @@ import HallList from "./containers/HallList/HallList";
 import HallDetail from "./containers/HallDetail/HallDetail";
 import HallAdd from "./containers/HallAdd/HallAdd";
 import HallEdit from "./containers/HallEdit/HallEdit";
+import Login from "./containers/Login/Login";
 
 
 class App extends Component {
@@ -25,6 +26,7 @@ class App extends Component {
                     <Route path="/movies/create" component={MovieAdd}/>
                     <Route path="/movies/:id/edit" component={MovieEdit}/>
                     <Route path="/movies/:id" component={MovieDetail}/>
+                    <Route path="/login" component={Login}/>
                     <Route path="/" component={MovieList}/>
                 </Switch>
             </Layout>
