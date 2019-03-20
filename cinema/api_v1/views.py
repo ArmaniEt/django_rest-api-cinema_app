@@ -15,7 +15,7 @@ class BaseViewSet(viewsets.ModelViewSet):
         return permissions
 
 
-class MovieViewSet(viewsets.ModelViewSet):
+class MovieViewSet(BaseViewSet):
     queryset = Movie.objects.active().order_by('-release_date')
     serializer_class = MovieCreateSerializer
 
@@ -30,7 +30,7 @@ class MovieViewSet(viewsets.ModelViewSet):
         instance.save()
 
 
-class HallViewSet(viewsets.ModelViewSet):
+class HallViewSet(BaseViewSet):
     queryset = Hall.objects.all()
     serializer_class = HallSerializer
 
@@ -47,7 +47,7 @@ class ShowFilter(filters.FilterSet):
         fields = ['movie_id', 'hall_id', 'starts_after', 'starts_before']
 
 
-class ShowViewSet(viewsets.ModelViewSet):
+class ShowViewSet(BaseViewSet):
     queryset = Show.objects.all()
     serializer_class = ShowSerializer
     filter_backends = (filters.DjangoFilterBackend,)
@@ -59,17 +59,17 @@ class ShowViewSet(viewsets.ModelViewSet):
 #
 
 
-class SeatViewSet(viewsets.ModelViewSet):
+class SeatViewSet(BaseViewSet):
     queryset = Seat.objects.all().order_by('-hall')
     serializer_class = SeatSerializer
 
 
-class CategoryViewSet(viewsets.ModelViewSet):
+class CategoryViewSet(BaseViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
 
-class BookingViewSet(viewsets.ModelViewSet):
+class BookingViewSet(BaseViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingCreateSerializer
 
@@ -80,11 +80,11 @@ class BookingViewSet(viewsets.ModelViewSet):
             return BookingCreateSerializer
 
 
-class DiscountViewSet(viewsets.ModelViewSet):
+class DiscountViewSet(BaseViewSet):
     queryset = Discount.objects.all()
     serializer_class = DiscountSerializer
 
 
-class TicketViewSet(viewsets.ModelViewSet):
+class TicketViewSet(BaseViewSet):
     queryset = Tickets.objects.all()
     serializer_class = TicketsSerializer
