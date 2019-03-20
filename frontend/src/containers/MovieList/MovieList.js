@@ -10,6 +10,9 @@ class MovieList extends Component {
     };
 
     componentDidMount() {
+        const headers = {
+            Authorization: "Token " + localStorage.getItem('auth-token')
+        };
         fetch(MOVIES_URL)
             .then(response => {
                 if (response.ok) return response.json();
