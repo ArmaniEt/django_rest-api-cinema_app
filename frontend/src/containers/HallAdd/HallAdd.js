@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {HALLS_URL} from "../../urls";
 import HallForm from "../../components/HallForm/HallForm";
+import axios from 'axios';
 
 
 class HallAdd extends Component {
@@ -29,10 +30,17 @@ class HallAdd extends Component {
 
     formSubmitted = (hall) => {
         const formData = this.gatherFormData(hall);
-        return fetch(HALLS_URL, {method: "POST", body: formData})
+        return axios.post(HALLS_URL, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Token ' + localStorage.getItem('auth-token')
+            }
+        })
             .then(response => {
-                return response.json();
-            }).then(hall => this.props.history.replace('/halls/' + hall.id))
+                const hall = response.data;
+                console.log(hall);
+                this.props.history.replace('/halls/' + hall.id);
+            })
             .catch(error => {
                 console.log(error);
                 console.log(error.response);

@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {MOVIES_URL} from "../../urls";
 import MovieForm from "../../components/MovieForm/MovieForm";
-
+import axios from 'axios';
 
 class MovieAdd extends Component {
 
@@ -36,12 +36,20 @@ class MovieAdd extends Component {
     formSubmitted = (movie) => {
 
         const formData = this.gatherFormData(movie);
-        return fetch(MOVIES_URL, {method: "POST", body: formData})
+        return axios.post(MOVIES_URL, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Token ' + localStorage.getItem('auth-token')
+            }
+        })
             .then(response => {
-                return response.json();
-            }).then(movie => this.props.history.replace('/movies/' + movie.id))
+                const movie = response.data;
+                console.log(movie);
+                this.props.history.replace('/movies/' + movie.id);
+            })
             .catch(error => {
                 console.log(error);
+                console.log(error.response);
                 this.showErrorAlert(error.response);
             });
     };

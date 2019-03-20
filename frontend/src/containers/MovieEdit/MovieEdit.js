@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {MOVIES_URL} from "../../urls";
 import MovieForm from "../../components/MovieForm/MovieForm";
-
+import axios from 'axios';
 
 class MovieEdit extends Component {
     state = {
@@ -54,11 +54,20 @@ class MovieEdit extends Component {
 
     formSubmitted = (movie) => {
         const formData = this.gatherFormData(movie);
-        return fetch(MOVIES_URL + this.props.match.params.id + '/', {method: "PUT", body: formData})
+        return axios.put(MOVIES_URL + this.props.match.params.id + '/', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Token ' + localStorage.getItem('auth-token')
+            }
+        })
             .then(response => {
-                return response.json();
-            }).then(movie => this.props.history.replace('/movies/' + movie.id)).catch(error => {
+                const movie = response.data;
+                console.log(movie);
+                this.props.history.replace('/movies/' + movie.id);
+            })
+            .catch(error => {
                 console.log(error);
+                console.log(error.response);
                 this.showErrorAlert(error.response);
             });
     };

@@ -10,9 +10,6 @@ class MovieList extends Component {
     };
 
     componentDidMount() {
-        const headers = {
-            Authorization: "Token " + localStorage.getItem('auth-token')
-        };
         fetch(MOVIES_URL)
             .then(response => {
                 if (response.ok) return response.json();
@@ -23,7 +20,12 @@ class MovieList extends Component {
     }
 
     movieDelete = (movieId) => {
-        fetch(MOVIES_URL + movieId + '/', {method: "DELETE"});
+
+        fetch(MOVIES_URL + movieId + '/', {
+            method: "DELETE", headers: {
+                'Authorization': 'Token ' + localStorage.getItem('auth-token')
+            }
+        });
         this.setState(prevState => {
             let newState = {...prevState};
             let movies = [...newState.movies];
@@ -41,7 +43,7 @@ class MovieList extends Component {
                 <div className='row'>
                     {this.state.movies.map(movie => {
                         return <div className='col-xs-12 col-sm-6 col-lg-4 mt-3' key={movie.id}>
-                            <MovieCard onDelete={() => this.movieDelete(movie.id)}  movie={movie}/>
+                            <MovieCard onDelete={() => this.movieDelete(movie.id)} movie={movie}/>
                         </div>
                     })}
                 </div>
