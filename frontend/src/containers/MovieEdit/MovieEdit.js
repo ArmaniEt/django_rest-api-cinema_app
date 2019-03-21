@@ -6,8 +6,7 @@ import axios from 'axios';
 class MovieEdit extends Component {
     state = {
         movie: null,
-
-        alert: null,
+        errors: {},
     };
 
     componentDidMount() {
@@ -28,14 +27,6 @@ class MovieEdit extends Component {
             });
     }
 
-    showErrorAlert = (error) => {
-        console.log(error);
-        this.setState(prevState => {
-            let newState = {...prevState};
-            newState.alert = {type: 'danger', message: `Movie was not added!`};
-            return newState;
-        });
-    };
 
     gatherFormData = (movie) => {
         let formData = new FormData();
@@ -68,15 +59,17 @@ class MovieEdit extends Component {
             .catch(error => {
                 console.log(error);
                 console.log(error.response);
-                this.showErrorAlert(error.response);
+                this.setState({
+                    ...this.state,
+                    errors: error.response.data
+                });
             });
     };
 
     render() {
-        const {alert, movie} = this.state;
+        const {errors, movie} = this.state;
         return <Fragment>
-            {alert ? <div className={"mb-2 alert alert-" + alert.type}>{alert.message}</div> : null}
-            {movie ? <MovieForm onSubmit={this.formSubmitted} movie={movie}/> : null}
+            {movie ? <MovieForm onSubmit={this.formSubmitted} movie={movie} errors={errors}/> : null}
         </Fragment>
     }
 }

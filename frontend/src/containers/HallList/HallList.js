@@ -36,13 +36,19 @@ class HallList extends Component {
 
     };
 
+    redirectTo = () => {
+        this.props.history.push('/login')
+    };
+
     render() {
         return (
             <Fragment>
                 <div className='row'>
                     {this.state.halls.map(hall => {
                         return <div className='col-xs-12 col-sm-6 col-lg-4 mt-3' key={hall.id}>
-                            <HallCard onDelete={() => this.hallDelete(hall.id)} hall={hall}/>
+                            <HallCard onDelete={localStorage.getItem('auth-token') ?
+                                () => this.hallDelete(hall.id) : () => this.redirectTo()}
+                                      hall={hall}/>
                         </div>
                     })}
                 </div>

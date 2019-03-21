@@ -1,7 +1,6 @@
 import React, {Fragment, Component} from 'react';
 import {MOVIES_URL} from "../../urls";
 import MovieCard from "../../components/MovieCard/MovieCard";
-import {Redirect} from "react-router";
 
 
 class MovieList extends Component {
@@ -21,7 +20,6 @@ class MovieList extends Component {
     }
 
     movieDelete = (movieId) => {
-
         fetch(MOVIES_URL + movieId + '/', {
             method: "DELETE", headers: {
                 'Authorization': 'Token ' + localStorage.getItem('auth-token')
