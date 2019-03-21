@@ -1,12 +1,13 @@
 import React, {Fragment, Component} from 'react';
 import {MOVIES_URL} from "../../urls";
 import MovieCard from "../../components/MovieCard/MovieCard";
+import {Redirect} from "react-router";
 
 
 class MovieList extends Component {
 
     state = {
-        movies: []
+        movies: [],
     };
 
     componentDidMount() {
@@ -37,13 +38,19 @@ class MovieList extends Component {
 
     };
 
+    redirectTo = () => {
+        this.props.history.push('/login')
+    };
+
     render() {
         return (
             <Fragment>
                 <div className='row'>
                     {this.state.movies.map(movie => {
                         return <div className='col-xs-12 col-sm-6 col-lg-4 mt-3' key={movie.id}>
-                            <MovieCard onDelete={() => this.movieDelete(movie.id)} movie={movie}/>
+                            <MovieCard onDelete={localStorage.getItem('auth-token') ?
+                                (() => this.movieDelete(movie.id)) : () => this.redirectTo()}
+                                       movie={movie}/>
                         </div>
                     })}
                 </div>
