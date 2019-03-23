@@ -14,6 +14,8 @@ class Menu extends Component {
 
 
     render() {
+        const username =localStorage.getItem('username');
+        const isAdmin = localStorage.getItem('is_admin');
         return <Fragment>
             <button onClick={this.toggle}
                     className="navbar-toggler"
@@ -26,12 +28,21 @@ class Menu extends Component {
                 <span className="navbar-toggler-icon"/>
             </button>
             <div className={(this.state.menuCollapse ? "collapse" : "") + " navbar-collapse"} id="navbarNav">
-                <ul className="navbar-nav">
+                <ul className="navbar-nav mr-auto">
                     <MenuItem to="/">Фильмы</MenuItem>
-                    <MenuItem to="/movies/create">Добавить фильм</MenuItem>
+                    {isAdmin === 'true' ? <MenuItem to="/movies/create">Добавить фильм</MenuItem> : null}
                     <MenuItem to='/halls/'>Залы</MenuItem>
-                    <MenuItem to='/halls/create'>Добавить зал</MenuItem>
-                    {localStorage.getItem('auth-token') ? <MenuItem to="/logout">Выйти</MenuItem>
+                    {isAdmin === 'true' ? <MenuItem to='/halls/create'>Добавить зал</MenuItem> : null}
+
+                </ul>
+                <ul className='navbar-nav ml-auto'>
+
+                    {username ? [
+                        <li className="nav-item" key="username">
+                            <span className="navbar-text">Привет {username}!</span>
+                        </li>,
+                        <MenuItem to="/logout" key="logout">Выйти</MenuItem>
+                        ]
                         : [
                             <MenuItem key='login' to="/login">Войти</MenuItem>,
                             <MenuItem key='register' to="/register">Зарегистрироваться</MenuItem>
