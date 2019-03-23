@@ -5,11 +5,11 @@ import MenuItem from '../Menu/MenuItem/MenuItem';
 class Menu extends Component {
 
     state = {
-      menuCollapse: true,
+        menuCollapse: true,
     };
 
     toggle = () => {
-      this.setState({menuCollapse: !this.state.menuCollapse})
+        this.setState({menuCollapse: !this.state.menuCollapse})
     };
 
 
@@ -32,7 +32,10 @@ class Menu extends Component {
                     <MenuItem to='/halls/'>Залы</MenuItem>
                     <MenuItem to='/halls/create'>Добавить зал</MenuItem>
                     {localStorage.getItem('auth-token') ? <MenuItem to="/logout">Выйти</MenuItem>
-                        : <MenuItem to="/login">Войти</MenuItem>}
+                        : [
+                            <MenuItem key='login' to="/login">Войти</MenuItem>,
+                            <MenuItem key='register' to="/register">Зарегистрироваться</MenuItem>
+                    ]}
                 </ul>
             </div>
         </Fragment>

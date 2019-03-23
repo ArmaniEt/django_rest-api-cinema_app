@@ -14,6 +14,7 @@ import HallEdit from "./containers/HallEdit/HallEdit";
 import Login from "./containers/Login/Login";
 import Logout from "./containers/Logout/Logout";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
+import Register from "./containers/Register/Register";
 
 
 class App extends Component {
@@ -30,6 +31,7 @@ class App extends Component {
                     <Route path="/movies/:id" component={MovieDetail}/>
                     <Route path="/logout" component={Logout}/>
                     <Route path="/login" component={Login}/>
+                    <Route path='/register' component={Register}/>
                     <Route path="/" component={MovieList} exact/>
                 </Switch>
             </Layout>
