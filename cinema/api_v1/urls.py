@@ -17,6 +17,6 @@ app_name = 'api_v1'
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('login/', obtain_auth_token, name='api_token_auth'),
+    path('login/', views.LoginView.as_view(), name='api_token_auth'),
     path('register/', views.UserCreateView.as_view(), name='register')
 ]

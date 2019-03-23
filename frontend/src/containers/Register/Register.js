@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import axios from 'axios';
-import {REGISTER_URL} from "../../urls";
+import {LOGIN_URL, REGISTER_URL} from "../../urls";
 
 
 class Register extends Component {
@@ -21,16 +21,11 @@ class Register extends Component {
     formSubmitted = (event) => {
         event.preventDefault();
         if (this.passwordsMatch()) {
-            const data = {
-                username: this.state.user.username,
-                password: this.state.user.password
-            };
+            const {username, password} = this.state;
+            const data = {username, password};
             return axios.post(REGISTER_URL, data).then(response => {
                 console.log(response);
-                this.props.history.push({
-                    pathname: '/login/',
-                    state: {next: '/'}
-                });
+                this.performLogin(username, password)
             }).catch(error => {
                 console.log(error);
                 console.log(error.response);
@@ -50,6 +45,26 @@ class Register extends Component {
                 [event.target.name]: event.target.value
             }
         })
+    };
+
+    performLogin = (username, password) => {
+        axios.post(LOGIN_URL, {username, password}).then(response => {
+            console.log(response);
+            localStorage.setItem('auth-token', response.data.token);
+            localStorage.setItem('username', response.data.username);
+            localStorage.setItem('is_admin', response.data.is_admin);
+            localStorage.setItem('is_staff', response.data.is_staff);
+            this.props.history.replace('/');
+
+        }).catch(error => {
+            console.log(error);
+            console.log(error.response);
+            this.props.history.replace({
+                pathname: '/login/',
+                state: {next: '/'}
+            })
+        })
+
     };
 
     passwordConfirmChange = (event) => {
