@@ -2,9 +2,11 @@ from webapp.models import Movie, Hall, Show, Seat, Category, Booking, Discount, 
 from rest_framework import viewsets
 from api_v1.serializers import MovieCreateSerializer, MovieDisplaySerializer, HallSerializer, \
     ShowSerializer, SeatSerializer, CategorySerializer, BookingCreateSerializer, \
-    DiscountSerializer, TicketsSerializer, BookingDisplaySerializer
+    DiscountSerializer, TicketsSerializer, BookingDisplaySerializer, UserSerializer
 from django_filters import rest_framework as filters
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from django.contrib.auth.models import User
+from rest_framework.generics import CreateAPIView
 
 
 class BaseViewSet(viewsets.ModelViewSet):
@@ -88,3 +90,10 @@ class DiscountViewSet(BaseViewSet):
 class TicketViewSet(BaseViewSet):
     queryset = Tickets.objects.all()
     serializer_class = TicketsSerializer
+
+
+class UserCreateView(CreateAPIView):
+    model = User
+    serializer_class = UserSerializer
+    permission_classes = [AllowAny]
+
