@@ -8,7 +8,10 @@ class Register extends Component {
         user: {
             'username': '',
             'password': '',
-            'passwordConfirm': ''
+            'passwordConfirm': '',
+            'email': '',
+            'first_name': '',
+            'last_name': ''
         },
         errors: {}
     };
@@ -21,11 +24,11 @@ class Register extends Component {
     formSubmitted = (event) => {
         event.preventDefault();
         if (this.passwordsMatch()) {
-            const {username, password} = this.state;
-            const data = {username, password};
+            const {username, password, email, first_name, last_name} = this.state.user;
+            const data = {username, password, email, first_name, last_name};
             return axios.post(REGISTER_URL, data).then(response => {
                 console.log(response);
-                this.performLogin(username, password)
+                this.performLogin(username, password);
             }).catch(error => {
                 console.log(error);
                 console.log(error.response);
@@ -51,6 +54,9 @@ class Register extends Component {
         axios.post(LOGIN_URL, {username, password}).then(response => {
             console.log(response);
             localStorage.setItem('auth-token', response.data.token);
+            localStorage.setItem('email', response.data.email);
+            localStorage.setItem('first_name', response.data.first_name);
+            localStorage.setItem('last_name', response.data.last_name);
             localStorage.setItem('username', response.data.username);
             localStorage.setItem('is_admin', response.data.is_admin);
             localStorage.setItem('is_staff', response.data.is_staff);
@@ -68,16 +74,16 @@ class Register extends Component {
     };
 
     passwordConfirmChange = (event) => {
-          this.inputChanged(event);
-          const password = this.state.user.password;
-          const passwordConfirm = event.target.value;
-          const errors = (password === passwordConfirm) ? [] : ['Password do not match'];
-          this.setState({
-              errors: {
-                  ...this.state.errors,
-                  passwordConfirm: errors
-              }
-          })
+        this.inputChanged(event);
+        const password = this.state.user.password;
+        const passwordConfirm = event.target.value;
+        const errors = (password === passwordConfirm) ? [] : ['Password do not match'];
+        this.setState({
+            errors: {
+                ...this.state.errors,
+                passwordConfirm: errors
+            }
+        })
     };
 
     showErrors = (name) => {
@@ -88,30 +94,62 @@ class Register extends Component {
     };
 
     render() {
-        const {username, password, passwordConfirm} = this.state.user;
+        const {username, password, passwordConfirm, email, first_name, last_name} = this.state.user;
         return <Fragment>
-            <h2>Регистрация</h2>
+            <h2 className="text-center mt-2">Регистрация</h2>
             <form onSubmit={this.formSubmitted}>
                 {this.showErrors('non_field_errors')}
-                <div className="form-row">
-                    <label className="font-weight-bold">Имя пользователя</label>
-                    <input type="text" className="form-control" name="username" value={username}
-                           onChange={this.inputChanged}/>
-                    {this.showErrors('username')}
+                <div className="form-row mt-3">
+                    <label className="font-weight-bold col-sm-2 m-auto">Имя пользователя:</label>
+                    <div className="col-sm-10">
+                        <input type="text" className="form-control" name="username" value={username}
+                               onChange={this.inputChanged}/>
+                        {this.showErrors('username')}
+                    </div>
                 </div>
-                <div className="form-row">
-                    <label className="font-weight-bold">Пароль</label>
-                    <input type="password" className="form-control" name="password" value={password}
-                           onChange={this.inputChanged}/>
-                    {this.showErrors('password')}
+                <div className="form-row mt-3">
+                    <label className="font-weight-bold col-sm-2 m-auto">Пароль:</label>
+                    <div className="col-sm-10">
+                        <input type="password" className="form-control" name="password" value={password}
+                               onChange={this.inputChanged}/>
+                        {this.showErrors('password')}
+                    </div>
                 </div>
-                <div className="form-row">
-                    <label className="font-weight-bold">Подтверждение пароля</label>
-                    <input type="password" className="form-control" name="passwordConfirm" value={passwordConfirm}
-                           onChange={this.passwordConfirmChange}/>
-                    {this.showErrors('passwordConfirm')}
+                <div className="form-row mt-3">
+                    <label className="font-weight-bold col-sm-2 m-auto">E-mail:</label>
+                    <div className="col-sm-10">
+                        <input type="email" className="form-control" name="email" value={email}
+                               onChange={this.inputChanged}/>
+                        {this.showErrors('email')}
+                    </div>
                 </div>
-                <button type="submit" className="btn btn-primary mt-2">Создать учётную запись</button>
+                <div className="form-row mt-3">
+                    <label className="font-weight-bold col-sm-2 m-auto">Имя:</label>
+                    <div className="col-sm-10">
+                        <input type="text" className="form-control" name="first_name" value={first_name}
+                               onChange={this.inputChanged}/>
+                        {this.showErrors('first_name')}
+                    </div>
+                </div>
+                <div className="form-row mt-3">
+                    <label className="font-weight-bold col-sm-2 m-auto">Фамилия:</label>
+                    <div className="col-sm-10">
+                        <input type="text" className="form-control" name="last_name" value={last_name}
+                               onChange={this.inputChanged}/>
+                        {this.showErrors('last_name')}
+                    </div>
+                </div>
+                <div className="form-row mt-3">
+                    <label className="font-weight-bold col-sm-2 m-auto">Подтверждение пароля:</label>
+                    <div className="col-sm-10">
+                        <input type="password" className="form-control" name="passwordConfirm" value={passwordConfirm}
+                               onChange={this.passwordConfirmChange}/>
+                        {this.showErrors('passwordConfirm')}
+                    </div>
+                </div>
+                <div className="text-center">
+                    <button type="submit" className="btn btn-primary mt-4">Создать учётную запись</button>
+                </div>
             </form>
         </Fragment>
     }

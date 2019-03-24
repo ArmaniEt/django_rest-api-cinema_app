@@ -15,6 +15,7 @@ import Login from "./containers/Login/Login";
 import Logout from "./containers/Logout/Logout";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
 import Register from "./containers/Register/Register";
+import PersonalArea from "./containers/PersonalArea/PersonalArea";
 
 
 class App extends Component {
@@ -24,6 +25,7 @@ class App extends Component {
                 <Switch>
                     <AuthRoute path="/halls/:id/edit" component={HallEdit}/>
                     <AuthRoute path="/halls/create" component={HallAdd}/>
+                    <AuthRoute path="/personal/" component={PersonalArea}/>
                     <Route path="/halls/:id" component={HallDetail}/>
                     <Route path="/halls/" component={HallList}/>
                     <AuthRoute path="/movies/create" component={MovieAdd}/>

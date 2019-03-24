@@ -38,7 +38,7 @@ class MovieAdd extends Component {
                 console.log(movie);
                 this.props.history.replace('/movies/' + movie.id);
             })
-            .catch(error => {
+            .catch   (error => {
                 console.log(error);
                 console.log(error.response);
                 this.setState({
