@@ -24,6 +24,7 @@ class Login extends Component {
             localStorage.setItem('last_name', response.data.last_name);
             localStorage.setItem('is_admin', response.data.is_admin);
             localStorage.setItem('is_staff', response.data.is_staff);
+            localStorage.setItem('id', response.data.id);
             if (this.props.location.state) {
                 this.props.history.replace(this.props.location.state.next);
             } else {

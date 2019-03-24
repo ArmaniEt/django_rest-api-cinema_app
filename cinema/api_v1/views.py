@@ -6,7 +6,7 @@ from api_v1.serializers import MovieCreateSerializer, MovieDisplaySerializer, Ha
 from django_filters import rest_framework as filters
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth.models import User
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -101,6 +101,12 @@ class UserCreateView(CreateAPIView):
     permission_classes = [AllowAny]
 
 
+class UserUpdateView(UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated,)
+
+
 class LoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={'request': request})
@@ -109,6 +115,7 @@ class LoginView(ObtainAuthToken):
         token, created = Token.objects.get_or_create(user=user)
         return Response({
             'token': token.key,
+            'id': user.id,
             'username': user.username,
             'email': user.email,
             'first_name': user.first_name,

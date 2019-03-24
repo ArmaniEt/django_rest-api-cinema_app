@@ -25,7 +25,7 @@ class App extends Component {
                 <Switch>
                     <AuthRoute path="/halls/:id/edit" component={HallEdit}/>
                     <AuthRoute path="/halls/create" component={HallAdd}/>
-                    <AuthRoute path="/personal/" component={PersonalArea}/>
+                    <AuthRoute path="/personal" component={PersonalArea}/>
                     <Route path="/halls/:id" component={HallDetail}/>
                     <Route path="/halls/" component={HallList}/>
                     <AuthRoute path="/movies/create" component={MovieAdd}/>

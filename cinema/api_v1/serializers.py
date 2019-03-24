@@ -129,9 +129,12 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
     def update(self, instance, validated_data):
-        password = validated_data.pop('password')
-        instance = User.objects.update(**validated_data)
-        instance.set_password(password)
+        instance.email = validated_data.get('email', instance.email)
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        if validated_data.get('password', instance.password):
+            password = validated_data.get('password', instance.password)
+            instance.set_password(password)
         instance.save()
         return instance
 
