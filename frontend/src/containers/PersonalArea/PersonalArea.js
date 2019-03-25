@@ -8,25 +8,22 @@ class PersonalArea extends Component {
 
     state = {
         user: {
-            'username': '',
             'password': '',
             'passwordConfirm': '',
             'email': '',
             'first_name': '',
             'last_name': ''
         },
-        errors: {},
+        success: [],
     };
 
 
     componentDidMount() {
-        let username = localStorage.getItem('username');
         let email = localStorage.getItem('email');
         let first_name = localStorage.getItem('first_name');
         let last_name = localStorage.getItem('last_name');
         this.setState(prevState => {
                 let newState = {...prevState};
-                newState.user.username = username;
                 newState.user.email = email;
                 newState.user.first_name = first_name;
                 newState.user.last_name = last_name;
@@ -43,6 +40,13 @@ class PersonalArea extends Component {
             }
         }).then(response => {
             console.log(response);
+            if (response.statusText === 'OK'){
+                this.setState(prevState => {
+                    let newState = {...prevState};
+                    newState.success = ["Даннные успешно обновлены"];
+                    return newState;
+                })
+            }
         }).catch(error => {
             console.log(error);
             console.log(error.response);
@@ -51,15 +55,15 @@ class PersonalArea extends Component {
 
 
     render() {
-        const {username, email, first_name, last_name, password} = this.state.user;
-        const {user} = this.state;
+        const {email, first_name, last_name} = this.state.user;
+        const username = localStorage.getItem('username');
+        const {user, success} = this.state;
         return <Fragment>
             <div className="card mt-4">
                 <div className="card-header text-center">Личный кабинет</div>
                 <div className="card-body">
                     <h5 className="card-title text-center">Добро пожаловать {username}!</h5>
                     <div className="card-text">
-                        <p>{password}</p>
                         <p>Имя: {first_name}</p>
                         <p>Фамилия: {last_name}</p>
                         <p>E-mail: {email}</p>
@@ -67,7 +71,7 @@ class PersonalArea extends Component {
                 </div>
             </div>
             <h3 className="text-center mt-4">Редактировать данные</h3>
-            {user ? <UserForm onSubmit={this.formSubmitted} user={user}/> : null}
+            {user ? <UserForm onSubmit={this.formSubmitted} user={user} success={success}/> : null}
         </Fragment>
     }
 }
