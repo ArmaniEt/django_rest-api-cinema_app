@@ -134,7 +134,6 @@ class UserSerializer(serializers.ModelSerializer):
         instance.last_name = validated_data.get('last_name', instance.last_name)
         if validated_data.get('password'):
             password = validated_data.pop('password')
-            instance.__dict__.update(validated_data)
             instance.set_password(password)
         instance.save()
         return instance
