@@ -1,9 +1,9 @@
 from rest_framework.exceptions import ValidationError
-
 from webapp.models import Movie, Hall, Seat, Show, Category, Booking, Discount, Tickets
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
 
 
 class ShowSerializer(serializers.ModelSerializer):
@@ -144,3 +144,14 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'password', 'email', 'first_name', 'last_name')
+
+
+class AuthTokenSerializer(serializers.Serializer):
+    token = serializers.CharField(write_only=True)
+
+    def validate_token(self, token):
+        try:
+            return Token.objects.get(key=token)
+        except Token.DoesNotExist:
+            raise ValidationError("Invalid credentials")
+
