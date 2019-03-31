@@ -1,11 +1,16 @@
 import {LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR} from "./actions/login";
 import {LOGOUT} from "./actions/logout";
+import {TOKEN_LOGIN_ERROR, TOKEN_LOGIN_REQUEST, TOKEN_LOGIN_SUCCESS} from "./actions/token-login";
 
 const initialState = {
     login: {
         loading: false,
         errors: {}
 
+    },
+    app: {
+        loading: true,
+        errors: {}
     },
     auth: {},
     register: {
@@ -62,6 +67,35 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 auth: {}
+            };
+        case TOKEN_LOGIN_REQUEST:
+            return {
+                ...state,
+                app: {
+                    ...state.app,
+                    loading: true,
+                    errors: {}
+                }
+            };
+        case TOKEN_LOGIN_SUCCESS:
+            return {
+                ...state,
+                app: {
+                    ...state.app,
+                    loading: false,
+                },
+
+                auth: action.data
+
+            };
+        case TOKEN_LOGIN_ERROR:
+            return{
+                ...state,
+                app: {
+                    ...state.app,
+                    loading: false,
+                    errors: action.errors
+                }
             };
 
         default:

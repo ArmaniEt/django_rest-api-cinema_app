@@ -110,6 +110,7 @@ class UserUpdateView(UpdateAPIView):
     permission_classes = (IsAuthenticated,)
 
 
+# ask why we have two views for login
 class LoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={'request': request})

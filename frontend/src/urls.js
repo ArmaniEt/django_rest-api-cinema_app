@@ -7,6 +7,7 @@ const SHOWS_URL = BASE_URL + /shows/;
 const LOGIN_URL = '/login/';
 const REGISTER_URL = '/register/';
 const REGISTER_UPDATE_URL = '/register/update/';
+const TOKEN_LOGIN_URL = '/token-login/';
 
 const instance = axios.create({
     baseURL: BASE_URL
@@ -16,4 +17,4 @@ const instance = axios.create({
 export default instance;
 
 export {MOVIES_URL, CATEGORIES_URL, BASE_URL, HALLS_URL, SHOWS_URL,
-    LOGIN_URL, REGISTER_URL, REGISTER_UPDATE_URL}
+    LOGIN_URL, REGISTER_URL, REGISTER_UPDATE_URL, TOKEN_LOGIN_URL}
