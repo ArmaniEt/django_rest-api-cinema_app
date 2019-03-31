@@ -1,6 +1,9 @@
+from rest_framework.exceptions import ValidationError
+
 from webapp.models import Movie, Hall, Seat, Show, Category, Booking, Discount, Tickets
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
 
 class ShowSerializer(serializers.ModelSerializer):

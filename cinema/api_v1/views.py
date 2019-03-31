@@ -1,3 +1,6 @@
+from rest_framework.exceptions import ValidationError
+from rest_framework.status import HTTP_400_BAD_REQUEST
+
 from webapp.models import Movie, Hall, Show, Seat, Category, Booking, Discount, Tickets
 from rest_framework import viewsets
 from api_v1.serializers import MovieCreateSerializer, MovieDisplaySerializer, HallSerializer, \

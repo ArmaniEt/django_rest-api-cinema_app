@@ -5,11 +5,23 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-datepicker/dist/react-datepicker.css";
+import {createStore, applyMiddleware} from 'redux';
+import reducer from './store/reducer';
+import {Provider} from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
+
+// TODO: erase axios imports when all requests would move to actions
 import axios from 'axios';
 import {BASE_URL} from "./urls";
 
 axios.defaults.baseURL = BASE_URL;
-ReactDOM.render(<App />, document.getElementById('root'));
+
+const store = createStore(reducer, applyMiddleware(thunkMiddleware));
+
+
+ReactDOM.render(
+    <Provider store={store}><App /></Provider>, document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
