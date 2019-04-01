@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import MenuItem from '../Menu/MenuItem/MenuItem';
+import connect from "react-redux/es/connect/connect";
 
 
 class Menu extends Component {
@@ -14,8 +15,7 @@ class Menu extends Component {
 
 
     render() {
-        const username = localStorage.getItem('username');
-        const isAdmin = localStorage.getItem('is_admin');
+        const {username, is_admin} = this.props.auth;
         return <Fragment>
             <button onClick={this.toggle}
                     className="navbar-toggler"
@@ -30,9 +30,9 @@ class Menu extends Component {
             <div className={(this.state.menuCollapse ? "collapse" : "") + " navbar-collapse"} id="navbarNav">
                 <ul className="navbar-nav mr-auto">
                     <MenuItem to="/">Фильмы</MenuItem>
-                    {isAdmin === 'true' ? <MenuItem to="/movies/create">Добавить фильм</MenuItem> : null}
+                    {is_admin ? <MenuItem to="/movies/create">Добавить фильм</MenuItem> : null}
                     <MenuItem to='/halls/'>Залы</MenuItem>
-                    {isAdmin === 'true' ? <MenuItem to='/halls/create'>Добавить зал</MenuItem> : null}
+                    {is_admin ? <MenuItem to='/halls/create'>Добавить зал</MenuItem> : null}
 
                 </ul>
                 <ul className='navbar-nav ml-auto'>
@@ -52,5 +52,7 @@ class Menu extends Component {
     }
 }
 
+const mapStateToProps = (state) => ({auth: state.auth});
+const mapDispatchToProps = dispatch => ({});
 
-export default Menu;
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);

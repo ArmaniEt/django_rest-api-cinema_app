@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import axios from 'axios';
 import UserForm from './../../components/UserForm/UserForm';
 import {REGISTER_UPDATE_URL} from "../../urls";
+import connect from "react-redux/es/connect/connect";
 
 
 class PersonalArea extends Component {
@@ -76,4 +77,7 @@ class PersonalArea extends Component {
     }
 }
 
-export default PersonalArea;
+const mapStateToProps = (state) => ({auth: state.auth});
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PersonalArea);
