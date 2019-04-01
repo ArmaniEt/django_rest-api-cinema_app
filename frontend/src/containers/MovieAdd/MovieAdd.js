@@ -1,13 +1,10 @@
 import React, {Component, Fragment} from 'react';
-import {MOVIES_URL} from "../../urls";
 import MovieForm from "../../components/MovieForm/MovieForm";
-import axios from 'axios';
+import {connect} from 'react-redux';
+import { movieAdd, MOVIE_ADD_SUCCESS } from "../../store/actions/movie_add";
 
 class MovieAdd extends Component {
 
-    state = {
-        errors: {}
-    };
 
     gatherFormData = (movie) => {
         let formData = new FormData();
@@ -25,32 +22,27 @@ class MovieAdd extends Component {
     };
 
     formSubmitted = (movie) => {
-
         const formData = this.gatherFormData(movie);
-        return axios.post(MOVIES_URL, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': 'Token ' + localStorage.getItem('auth-token')
-            }
-        })
-            .then(response => {
-                const movie = response.data;
-                console.log(movie);
-                this.props.history.replace('/movies/' + movie.id);
-            })
-            .catch(error => {
-                console.log(error);
-                console.log(error.response);
-                this.setState({
-                    errors: error.response.data
-                })
-            });
+        this.props.movieAdd(formData).then((result) => {
+            console.log(result);
+            if (result.type === MOVIE_ADD_SUCCESS) this.props.history.replace('/movies/' + result.data.id)
+        });
+
     };
     render() {
         return <Fragment>
-            <MovieForm onSubmit={this.formSubmitted} errors={this.state.errors}/>
+            <MovieForm onSubmit={this.formSubmitted} errors={this.props.errors} loading={this.props.loading}/>
         </Fragment>
     }
 }
 
-export default MovieAdd;
+const mapStateToProps = state => ({
+    movie: state.movie,
+    loading: state.loading,
+    errors: state.errors
+});
+const mapDispatchToProps = dispatch => ({
+    movieAdd: (formData) => dispatch(movieAdd(formData))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieAdd);

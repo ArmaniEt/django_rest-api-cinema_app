@@ -50,22 +50,22 @@ class MovieForm extends Component {
             })
     }
 
-    disableSubmit = () => {
-        this.setState(prevState => {
-            let newState = {...prevState};
-            newState.submitEnabled = false;
-            return newState;
-        })
-    };
-
-    enableSubmit = () => {
-        this.setState(prevState => {
-            let newState = {...prevState};
-            newState.submitEnabled = true;
-            return newState;
-        })
-
-    };
+    // disableSubmit = () => {
+    //     this.setState(prevState => {
+    //         let newState = {...prevState};
+    //         newState.submitEnabled = false;
+    //         return newState;
+    //     })
+    // };
+    //
+    // enableSubmit = () => {
+    //     this.setState(prevState => {
+    //         let newState = {...prevState};
+    //         newState.submitEnabled = true;
+    //         return newState;
+    //     })
+    //
+    // };
 
     dateToObject = (date) => {
         return date ? new Date(date) : null;
@@ -132,9 +132,7 @@ class MovieForm extends Component {
     submitForm = (event) => {
         if (this.state.submitEnabled) {
             event.preventDefault();
-            this.disableSubmit();
             this.props.onSubmit(this.state.movie)
-                .then(this.enableSubmit);
         }
     };
 
@@ -203,7 +201,7 @@ class MovieForm extends Component {
                                 name="categories"/>
                         {this.showErrors('categories')}
                     </div>
-                    <button disabled={!submitEnabled}
+                    <button disabled={this.props.loading}
                             className="btn btn-primary" type="submit">Сохранить
                     </button>
                 </form>
