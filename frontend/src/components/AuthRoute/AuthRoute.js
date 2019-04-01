@@ -3,7 +3,7 @@ import {Redirect, Route} from 'react-router';
 import {connect} from 'react-redux';
 
 const AuthRoute = (props) => {
-    if(props.auth.user_id){
+    if(props.auth.id){
         return <Route {...props}/>
     }else {
         return <Redirect to={{

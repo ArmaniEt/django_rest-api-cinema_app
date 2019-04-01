@@ -8,33 +8,12 @@ import connect from "react-redux/es/connect/connect";
 class PersonalArea extends Component {
 
     state = {
-        user: {
-            'password': '',
-            'passwordConfirm': '',
-            'email': '',
-            'first_name': '',
-            'last_name': ''
-        },
         success: [],
     };
 
 
-    componentDidMount() {
-        let email = localStorage.getItem('email');
-        let first_name = localStorage.getItem('first_name');
-        let last_name = localStorage.getItem('last_name');
-        this.setState(prevState => {
-                let newState = {...prevState};
-                newState.user.email = email;
-                newState.user.first_name = first_name;
-                newState.user.last_name = last_name;
-                return newState;
-            }
-        )
-    }
-
     formSubmitted = (data) => {
-        let id = localStorage.getItem('id');
+        let id = this.props.auth.id;
         return axios.patch(REGISTER_UPDATE_URL + id + '/', data, {
             headers: {
                 'Authorization': 'Token ' + localStorage.getItem('auth-token')
@@ -56,9 +35,8 @@ class PersonalArea extends Component {
 
 
     render() {
-        const {email, first_name, last_name} = this.state.user;
-        const username = localStorage.getItem('username');
-        const {user, success} = this.state;
+        const {email, first_name, last_name, username} = this.props.auth;
+        const {success} = this.state;
         return <Fragment>
             <div className="card mt-4">
                 <div className="card-header text-center">Личный кабинет</div>
@@ -72,7 +50,7 @@ class PersonalArea extends Component {
                 </div>
             </div>
             <h3 className="text-center mt-4">Редактировать данные</h3>
-            {user ? <UserForm onSubmit={this.formSubmitted} user={user} success={success}/> : null}
+            {username ? <UserForm onSubmit={this.formSubmitted} user={this.props.auth} success={success}/> : null}
         </Fragment>
     }
 }

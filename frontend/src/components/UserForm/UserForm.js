@@ -4,9 +4,14 @@ import React, {Fragment, Component} from 'react'
 class UserForm extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            user: this.props.user,
+            user: {
+            'password': '',
+            'passwordConfirm': '',
+            'email': this.props.user.email,
+            'first_name': this.props.user.first_name,
+            'last_name': this.props.user.last_name
+        },
             errors: {}
 
         };
