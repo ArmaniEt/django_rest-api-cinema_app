@@ -31,16 +31,14 @@ class MovieAdd extends Component {
     };
     render() {
         return <Fragment>
+            {console.log(this.props.movie.errors)}
             <MovieForm onSubmit={this.formSubmitted} errors={this.props.errors} loading={this.props.loading}/>
         </Fragment>
     }
 }
 
-const mapStateToProps = state => ({
-    movie: state.movie,
-    loading: state.loading,
-    errors: state.errors
-});
+const mapStateToProps = state => state.movie;
+
 const mapDispatchToProps = dispatch => ({
     movieAdd: (formData) => dispatch(movieAdd(formData))
 });

@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-datepicker/dist/react-datepicker.css";
 import {createStore, applyMiddleware} from 'redux';
-import reducer from './store/reducer';
+import root from './store/reducers/root';
 import {Provider} from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 
@@ -16,7 +16,7 @@ import {BASE_URL} from "./urls";
 
 axios.defaults.baseURL = BASE_URL;
 
-const store = createStore(reducer, applyMiddleware(thunkMiddleware));
+const store = createStore(root, applyMiddleware(thunkMiddleware));
 
 
 ReactDOM.render(

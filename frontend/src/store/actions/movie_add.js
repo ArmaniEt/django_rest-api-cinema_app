@@ -1,5 +1,4 @@
-import axios, {LOGIN_URL, MOVIES_URL} from "../../urls";
-import {LOGIN_ERROR, loginRequest, loginSuccess} from "./login";
+import axios, {MOVIES_URL} from "../../urls";
 
 export const MOVIE_ADD_REQUEST = "MOVIE_ADD_REQUEST";
 export const MOVIE_ADD_SUCCESS = "MOVIE_ADD_SUCCESS";

@@ -21,7 +21,6 @@ class MovieForm extends Component {
 
         this.state = {
             categories: [],
-            submitEnabled: true,
             movie: newMovie,
             posterFileName: "",
         };
@@ -50,22 +49,6 @@ class MovieForm extends Component {
             })
     }
 
-    // disableSubmit = () => {
-    //     this.setState(prevState => {
-    //         let newState = {...prevState};
-    //         newState.submitEnabled = false;
-    //         return newState;
-    //     })
-    // };
-    //
-    // enableSubmit = () => {
-    //     this.setState(prevState => {
-    //         let newState = {...prevState};
-    //         newState.submitEnabled = true;
-    //         return newState;
-    //     })
-    //
-    // };
 
     dateToObject = (date) => {
         return date ? new Date(date) : null;
@@ -130,7 +113,8 @@ class MovieForm extends Component {
     };
 
     submitForm = (event) => {
-        if (this.state.submitEnabled) {
+        console.log(this.props);
+        if (!this.props.loading) {
             event.preventDefault();
             this.props.onSubmit(this.state.movie)
         }
@@ -148,7 +132,7 @@ class MovieForm extends Component {
         if (this.state.movie) {
 
             const {name, description, release_date, finish_date} = this.state.movie;
-            const {posterFileName, submitEnabled} = this.state;
+            const {posterFileName} = this.state;
 
             const releaseDateSelected = this.dateToObject(release_date);
             const finishDateSelected = this.dateToObject(finish_date);
@@ -202,6 +186,7 @@ class MovieForm extends Component {
                         {this.showErrors('categories')}
                     </div>
                     <button disabled={this.props.loading}
+                            onClick={(event) => this.submitForm(event)}
                             className="btn btn-primary" type="submit">Сохранить
                     </button>
                 </form>

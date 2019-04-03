@@ -3,7 +3,8 @@ import {Redirect, Route} from 'react-router';
 import {connect} from 'react-redux';
 
 const AuthRoute = (props) => {
-    if(props.auth.id){
+    let token = localStorage.getItem('auth-token');
+    if(token){
         return <Route {...props}/>
     }else {
         return <Redirect to={{
