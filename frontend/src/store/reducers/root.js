@@ -4,6 +4,7 @@ import authReducer from "./auth";
 import tokenLoginReducer from "./app";
 import movieAddReducer from "./movie_add";
 import movieListReducer from "./movie-list";
+import movieEditReducer from "./movie-edit";
 
 
 const rootReducer = combineReducers({
@@ -11,7 +12,8 @@ const rootReducer = combineReducers({
     auth: authReducer,
     app: tokenLoginReducer,
     movie: movieAddReducer,
-    movieList: movieListReducer
+    movieList: movieListReducer,
+    movieEdit: movieEditReducer
 
 });
 

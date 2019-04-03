@@ -7,10 +7,6 @@ import {connect} from "react-redux";
 
 class MovieList extends Component {
 
-    state = {
-        movies: [],
-    };
-
     componentDidMount() {
         this.props.loadMovies();
     }
