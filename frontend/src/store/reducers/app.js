@@ -2,8 +2,8 @@ import {TOKEN_LOGIN_ERROR, TOKEN_LOGIN_REQUEST, TOKEN_LOGIN_SUCCESS} from "../ac
 
 
 const initialState = {
-    loading: false,
-    errors: {}
+    loading: true,
+    errors: {},
 };
 
 
