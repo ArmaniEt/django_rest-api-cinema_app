@@ -124,13 +124,6 @@ class TicketsSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
-    def create(self, validated_data):
-        password = validated_data.pop('password')
-        user = User.objects.create(**validated_data)
-        user.set_password(password)
-        user.save()
-        return user
-
     def update(self, instance, validated_data):
         instance.email = validated_data.get('email', instance.email)
         instance.first_name = validated_data.get('first_name', instance.first_name)
@@ -154,4 +147,27 @@ class AuthTokenSerializer(serializers.Serializer):
             return Token.objects.get(key=token)
         except Token.DoesNotExist:
             raise ValidationError("Invalid credentials")
+
+
+class UserRegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    password_confirm = serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        if attrs.get('password') != attrs.get('password_confirm'):
+            raise ValidationError('Passwords do not match')
+        return super().validate(attrs)
+
+    def create(self, validated_data):
+        validated_data.pop('password_confirm')
+        password = validated_data.pop('password')
+        user = super().create(validated_data)
+        user.set_password(password)
+        user.is_active = True # you should activate this via email if value is False
+        user.save()
+        return user
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'password', 'password_confirm', 'email', 'first_name', 'last_name']
 

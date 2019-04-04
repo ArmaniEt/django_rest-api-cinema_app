@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react'
-import axios from 'axios';
-import {LOGIN_URL, REGISTER_URL} from "../../urls";
+import {REGISTER_SUCCESS, registerUser} from "../../store/actions/register";
+import {connect} from "react-redux";
+import {login, LOGIN_SUCCESS} from "../../store/actions/login";
 
 
 class Register extends Component {
@@ -8,35 +9,26 @@ class Register extends Component {
         user: {
             'username': '',
             'password': '',
-            'passwordConfirm': '',
+            'password_confirm': '',
             'email': '',
             'first_name': '',
             'last_name': ''
         },
-        errors: {}
-    };
-
-    passwordsMatch = () => {
-        const {password, passwordConfirm} = this.state.user;
-        return password === passwordConfirm;
     };
 
     formSubmitted = (event) => {
         event.preventDefault();
-        if (this.passwordsMatch()) {
-            const {username, password, email, first_name, last_name} = this.state.user;
-            const data = {username, password, email, first_name, last_name};
-            return axios.post(REGISTER_URL, data).then(response => {
-                console.log(response);
-                this.performLogin(username, password);
-            }).catch(error => {
-                console.log(error);
-                console.log(error.response);
-                this.setState({
-                    ...this.state,
-                    errors: error.response.data
-                })
-            });
+        const {username, password} = this.state.user;
+        if (!this.props.loading) {
+            this.props.registerUser(this.state.user).then(result => {
+                if (result.type === REGISTER_SUCCESS) {
+                    this.props.login(username, password).then(result => {
+                       if(result.type === LOGIN_SUCCESS){
+                           this.props.history.replace('/')
+                       }
+                    });
+                }
+            })
         }
     };
 
@@ -50,52 +42,16 @@ class Register extends Component {
         })
     };
 
-    performLogin = (username, password) => {
-        axios.post(LOGIN_URL, {username, password}).then(response => {
-            console.log(response);
-            localStorage.setItem('auth-token', response.data.token);
-            localStorage.setItem('email', response.data.email);
-            localStorage.setItem('first_name', response.data.first_name);
-            localStorage.setItem('last_name', response.data.last_name);
-            localStorage.setItem('username', response.data.username);
-            localStorage.setItem('is_admin', response.data.is_admin);
-            localStorage.setItem('is_staff', response.data.is_staff);
-            localStorage.setItem('id', response.data.id);
-            this.props.history.replace('/');
-
-        }).catch(error => {
-            console.log(error);
-            console.log(error.response);
-            this.props.history.replace({
-                pathname: '/login/',
-                state: {next: '/'}
-            })
-        })
-
-    };
-
-    passwordConfirmChange = (event) => {
-        this.inputChanged(event);
-        const password = this.state.user.password;
-        const passwordConfirm = event.target.value;
-        const errors = (password === passwordConfirm) ? [] : ['Password do not match'];
-        this.setState({
-            errors: {
-                ...this.state.errors,
-                passwordConfirm: errors
-            }
-        })
-    };
 
     showErrors = (name) => {
-        if (this.state.errors && this.state.errors[name]) {
-            return this.state.errors[name].map((error, index) => <p className="text-danger" key={index}>{error}</p>);
+        if (this.props.errors && this.props.errors[name]) {
+            return this.props.errors[name].map((error, index) => <p className="text-danger" key={index}>{error}</p>);
         }
         return null;
     };
 
     render() {
-        const {username, password, passwordConfirm, email, first_name, last_name} = this.state.user;
+        const {username, password, password_confirm, email, first_name, last_name} = this.state.user;
         return <Fragment>
             <h2 className="text-center mt-2">Регистрация</h2>
             <form onSubmit={this.formSubmitted}>
@@ -143,13 +99,15 @@ class Register extends Component {
                 <div className="form-row mt-3">
                     <label className="font-weight-bold col-sm-2 m-auto">Подтверждение пароля:</label>
                     <div className="col-sm-10">
-                        <input type="password" className="form-control" name="passwordConfirm" value={passwordConfirm}
-                               onChange={this.passwordConfirmChange}/>
-                        {this.showErrors('passwordConfirm')}
+                        <input type="password" className="form-control" name="password_confirm" value={password_confirm}
+                               onChange={this.inputChanged}/>
+                        {this.showErrors('password_confirm')}
                     </div>
                 </div>
                 <div className="text-center">
-                    <button type="submit" className="btn btn-primary mt-4">Создать учётную запись</button>
+                    <button disabled={this.props.loading} type="submit" className="btn btn-primary mt-4">Создать учётную
+                        запись
+                    </button>
                 </div>
             </form>
         </Fragment>
@@ -157,4 +115,13 @@ class Register extends Component {
 }
 
 
-export default Register
+const mapStateToProps = (state) => state.register;
+
+
+const mapDispatchToProps = dispatch => ({
+    registerUser: (user) => dispatch(registerUser(user)),
+    login: (username, password) => dispatch(login(username, password))
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

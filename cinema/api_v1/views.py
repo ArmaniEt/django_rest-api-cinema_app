@@ -5,7 +5,8 @@ from webapp.models import Movie, Hall, Show, Seat, Category, Booking, Discount, 
 from rest_framework import viewsets
 from api_v1.serializers import MovieCreateSerializer, MovieDisplaySerializer, HallSerializer, \
     ShowSerializer, SeatSerializer, CategorySerializer, BookingCreateSerializer, \
-    DiscountSerializer, TicketsSerializer, BookingDisplaySerializer, UserSerializer, AuthTokenSerializer
+    DiscountSerializer, TicketsSerializer, BookingDisplaySerializer, AuthTokenSerializer, \
+    UserRegisterSerializer, UserSerializer
 from django_filters import rest_framework as filters
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth.models import User
@@ -100,7 +101,7 @@ class TicketViewSet(BaseViewSet):
 
 class UserCreateView(CreateAPIView):
     model = User
-    serializer_class = UserSerializer
+    serializer_class = UserRegisterSerializer
     permission_classes = [AllowAny]
 
 
@@ -110,7 +111,6 @@ class UserUpdateView(UpdateAPIView):
     permission_classes = (IsAuthenticated,)
 
 
-# ask why we have two views for login
 class LoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={'request': request})
