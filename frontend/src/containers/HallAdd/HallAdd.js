@@ -1,16 +1,11 @@
 import React, {Component, Fragment} from 'react';
-import {HALLS_URL} from "../../urls";
 import HallForm from "../../components/HallForm/HallForm";
-import axios from 'axios';
-import {movieAdd} from "../../store/actions/movie_add";
 import connect from "react-redux/es/connect/connect";
 import {HALL_ADD_SUCCESS, hallAdd} from "../../store/actions/hall-add";
 
 
 class HallAdd extends Component {
-
-
-
+    
     gatherFormData = (hall) => {
         let formData = new FormData();
         Object.keys(hall).forEach(key => {
