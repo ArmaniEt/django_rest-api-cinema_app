@@ -1,6 +1,8 @@
 import React, {Fragment, Component} from 'react';
 import {HALLS_URL} from "../../urls";
 import HallCard from '../../components/HallCard/HallCard';
+import connect from "react-redux/es/connect/connect";
+import {loadHalls} from "../../store/actions/hall-list";
 
 
 class HallList extends Component {
@@ -9,16 +11,10 @@ class HallList extends Component {
     };
 
     componentDidMount() {
-        fetch(HALLS_URL)
-            .then(response => {
-                if (response.ok) return response.json();
-                throw new Error("Something wrong with your network request");
-            }).then(halls =>
-            this.setState({halls: halls}))
-            .catch(error => console.log(error))
+        this.props.loadHalls()
     }
 
-
+    // TODO remove hallDelete to the separate actions
     hallDelete = (hallId) => {
         fetch(HALLS_URL + hallId + '/', {
             method: "DELETE", headers: {
@@ -44,7 +40,7 @@ class HallList extends Component {
         return (
             <Fragment>
                 <div className='row'>
-                    {this.state.halls.map(hall => {
+                    {this.props.halls.map(hall => {
                         return <div className='col-xs-12 col-sm-6 col-lg-4 mt-3' key={hall.id}>
                             <HallCard onDelete={localStorage.getItem('auth-token') ?
                                 () => this.hallDelete(hall.id) : () => this.redirectTo()}
@@ -57,4 +53,9 @@ class HallList extends Component {
     }
 }
 
-export default HallList;
+const mapStateToProps = (state) => state.hallList;
+const mapDispatchToProps = (dispatch) => ({
+    loadHalls: () => dispatch(loadHalls()),
+
+});
+export default connect(mapStateToProps, mapDispatchToProps)(HallList);
