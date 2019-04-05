@@ -12,7 +12,7 @@ const hallListReducer = (state = initialState, action) => {
         case HALL_LIST_REQUEST_SUCCESS:
             return {...state, halls: action.halls};
         case HALL_DELETE_SUCCESS:
-            let halls = state.halls;
+            let halls = [...state.halls];
             let hallId = action.id;
             let hallIndex = halls.findIndex(movie => movie.id === hallId);
             halls.splice(hallIndex, 1);
