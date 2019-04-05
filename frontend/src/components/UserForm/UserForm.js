@@ -117,7 +117,7 @@ class UserForm extends Component {
                     </div>
                     {success ? <p className="text-success text-center mt-3">{success}</p> : null}
                     <div className="text-center">
-                        <button className="btn btn-primary w-25 m-3" type="submit">Сохранить</button>
+                        <button disabled={this.props.loading} className="btn btn-primary w-25 m-3" type="submit">Сохранить</button>
                     </div>
                 </form>
             </Fragment>

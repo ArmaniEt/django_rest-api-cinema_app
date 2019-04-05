@@ -7,6 +7,7 @@ import movieListReducer from "./movie-list";
 import movieEditReducer from "./movie-edit";
 import movieDetailReducer from "./movie-detail";
 import registerUserReducer from "./register";
+import personalAreaReducer from "./personal-area";
 
 
 
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     movieList: movieListReducer,
     movieEdit: movieEditReducer,
     movieDetail: movieDetailReducer,
+    updateUser: personalAreaReducer
 });
 
 export default rootReducer
