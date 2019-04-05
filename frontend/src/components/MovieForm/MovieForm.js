@@ -113,7 +113,6 @@ class MovieForm extends Component {
     };
 
     submitForm = (event) => {
-        console.log(this.props);
         if (!this.props.loading) {
             event.preventDefault();
             this.props.onSubmit(this.state.movie)

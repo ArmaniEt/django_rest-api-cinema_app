@@ -11,7 +11,6 @@ class HallForm extends Component {
         };
 
         this.state = {
-            submitEnabled: true,
             hall: newHall
 
         };
@@ -22,23 +21,6 @@ class HallForm extends Component {
 
 
     }
-
-    disableSubmit = () => {
-        this.setState(prevState => {
-            let newState = {...prevState};
-            newState.submitEnabled = false;
-            return newState;
-        })
-    };
-
-    enableSubmit = () => {
-        this.setState(prevState => {
-            let newState = {...prevState};
-            newState.submitEnabled = true;
-            return newState;
-        })
-
-    };
 
 
     updateHallState = (fieldName, value) => {
@@ -59,11 +41,9 @@ class HallForm extends Component {
     };
 
     submitForm = (event) => {
-        if (this.state.submitEnabled) {
+        if (!this.props.loading) {
             event.preventDefault();
-            this.disableSubmit();
             this.props.onSubmit(this.state.hall)
-                .then(this.enableSubmit);
         }
     };
 
@@ -79,8 +59,6 @@ class HallForm extends Component {
         if (this.state.hall) {
 
             const {name} = this.state.hall;
-            const {submitEnabled} = this.state;
-
             return <div>
                 <form onSubmit={this.submitForm}>
                     <div className="form-group">
@@ -89,7 +67,7 @@ class HallForm extends Component {
                                onChange={this.inputChanged}/>
                         {this.showErrors('name')}
                     </div>
-                    <button disabled={!submitEnabled}
+                    <button disabled={this.props.loading}
                             className="btn btn-primary" type="submit">Сохранить
                     </button>
                 </form>

@@ -9,6 +9,7 @@ import movieDetailReducer from "./movie-detail";
 import registerUserReducer from "./register";
 import personalAreaReducer from "./personal-area";
 import hallListReducer from "./hall-list";
+import hallAddReducer from "./hall-add";
 
 
 
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
     movieEdit: movieEditReducer,
     movieDetail: movieDetailReducer,
     updateUser: personalAreaReducer,
-    hallList: hallListReducer
+    hallList: hallListReducer,
+    hall: hallAddReducer
 });
 
 export default rootReducer

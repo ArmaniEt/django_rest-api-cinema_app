@@ -2,13 +2,13 @@ import React, {Component, Fragment} from 'react';
 import {HALLS_URL} from "../../urls";
 import HallForm from "../../components/HallForm/HallForm";
 import axios from 'axios';
+import {movieAdd} from "../../store/actions/movie_add";
+import connect from "react-redux/es/connect/connect";
+import {HALL_ADD_SUCCESS, hallAdd} from "../../store/actions/hall-add";
 
 
 class HallAdd extends Component {
 
-    state = {
-        errors: {}
-    };
 
 
     gatherFormData = (hall) => {
@@ -22,32 +22,23 @@ class HallAdd extends Component {
 
     formSubmitted = (hall) => {
         const formData = this.gatherFormData(hall);
-        return axios.post(HALLS_URL, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': 'Token ' + localStorage.getItem('auth-token')
-            }
+        this.props.hallAdd(formData).then((result) => {
+            console.log(result);
+            if(result.type === HALL_ADD_SUCCESS) this.props.history.replace('/halls/' + result.data.id)
         })
-            .then(response => {
-                const hall = response.data;
-                console.log(hall);
-                this.props.history.replace('/halls/' + hall.id);
-            })
-            .catch(error => {
-                console.log(error);
-                console.log(error.response);
-                this.setState({
-                    errors: error.response.data
-                })
-
-            });
     };
 
     render() {
         return <Fragment>
-            <HallForm onSubmit={this.formSubmitted} errors={this.state.errors}/>
+            <HallForm loading={this.props.loading} onSubmit={this.formSubmitted} errors={this.props.errors}/>
         </Fragment>
     }
 }
 
-export default HallAdd;
+const mapStateToProps = state => state.hall;
+
+const mapDispatchToProps = dispatch => ({
+    hallAdd: (formData) => dispatch(hallAdd(formData))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HallAdd);
