@@ -5,7 +5,6 @@ export const HALL_EDIT_SUCCESS = "HALL_EDIT_SUCCESS";
 export const HALL_EDIT_ERROR = "HALL_EDIT_ERROR";
 
 export const HALL_LOAD_SUCCESS = "HALL_LOAD_SUCCESS";
-// export const MOVIE_CATEGORIES_LOAD_SUCCESS = "MOVIE_CATEGORIES_LOAD_SUCCESS";
 
 export const loadHall = (id) => {
     return dispatch => {

@@ -5,10 +5,6 @@ import {loadHall, saveHall} from "../../store/actions/hall-edit";
 import {HALL_EDIT_SUCCESS} from "../../store/actions/hall-edit";
 
 class HallEdit extends Component {
-    state = {
-        hall: null,
-        errors: {}
-    };
 
     componentDidMount() {
         this.props.loadHall(this.props.match.params.id)

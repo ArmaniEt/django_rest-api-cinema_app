@@ -11,6 +11,7 @@ import personalAreaReducer from "./personal-area";
 import hallListReducer from "./hall-list";
 import hallAddReducer from "./hall-add";
 import hallEditReducer from "./hall-edit";
+import hallDetailReducer from "./hall-detail";
 
 
 
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
     updateUser: personalAreaReducer,
     hallList: hallListReducer,
     hall: hallAddReducer,
-    hallEdit: hallEditReducer
+    hallEdit: hallEditReducer,
+    hallDetail: hallDetailReducer
 });
 
 export default rootReducer
