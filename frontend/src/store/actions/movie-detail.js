@@ -17,7 +17,6 @@ export const loadShows = (movieId) => {
         return axios.get(`${SHOWS_URL}?${query}`).then(response => {
             console.log(response);
             return dispatch({type: MOVIE_SHOWS_SUCCESS, shows: response.data})
-            // do MOVIE_SHOWS_SUCCESS here
         }).catch(error => {
             console.log(error);
             console.log(error.response);
